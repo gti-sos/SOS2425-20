@@ -14,7 +14,7 @@ app.get("/cool",(request,response)=>{
 });
 
 app.get("/about",(request,response)=>{
-    response.send("/about.html");
+    response.redirect("/about.html");
 });
 
 app.listen(PORT,()=>{
