@@ -60,7 +60,6 @@ app.listen(PORT,()=>{
 });
 
 // index-JCJ
-// index-JCJ
 
 let trafficData = [
     { autonomous_community: "Andalucía", fatal_accidents: 283, deceased: 310, vehicles_without_mot: 33, year: 2023 },
