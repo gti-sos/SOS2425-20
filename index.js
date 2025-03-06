@@ -21,7 +21,7 @@ app.get("/about",(request,response)=>{
 
 // index-CMR
 
-let trafficData = [
+let trafficData1 = [
     { city: "Badajoz", itv: 10774, alcohol_rate: 662, fixed_radar: 52155, year: 2023},
     { city: "Coruña", itv: 10104, alcohol_rate: 4367, fixed_radar: 52765, year: 2023},
     { city: "Madrid", itv: 93644, alcohol_rate: 5870, fixed_radar: 302579, year: 2023},
@@ -57,4 +57,41 @@ app.get("/samples/CMR", (req, res) => {
 
 app.listen(PORT,()=>{
     console.log(`Server running on port ${PORT}!`);
+});
+
+// index-JCJ
+// index-JCJ
+
+let trafficData = [
+    { autonomous_community: "Andalucía", fatal_accidents: 283, deceased: 310, vehicles_without_mot: 33, year: 2023 },
+    { autonomous_community: "Aragón", fatal_accidents: 70, deceased: 75, vehicles_without_mot: 12, year: 2023 },
+    { autonomous_community: "Asturias, Principado de", fatal_accidents: 45, deceased: 49, vehicles_without_mot: 8, year: 2023 },
+    { autonomous_community: "Balears, Illes", fatal_accidents: 60, deceased: 64, vehicles_without_mot: 3, year: 2023 },
+    { autonomous_community: "Canarias", fatal_accidents: 67, deceased: 69, vehicles_without_mot: 5, year: 2023 },
+    { autonomous_community: "Cantabria", fatal_accidents: 22, deceased: 24, vehicles_without_mot: 2, year: 2023 },
+    { autonomous_community: "Castilla-La Mancha", fatal_accidents: 113, deceased: 123, vehicles_without_mot: 15, year: 2023 },
+    { autonomous_community: "Castilla y León", fatal_accidents: 151, deceased: 167, vehicles_without_mot: 12, year: 2023 },
+    { autonomous_community: "Cataluña", fatal_accidents: 267, deceased: 288, vehicles_without_mot: 36, year: 2023 },
+    { autonomous_community: "Extremadura", fatal_accidents: 67, deceased: 70, vehicles_without_mot: 7, year: 2023 }
+];
+
+// Ruta para acceder a los cálculos en "/samples/JCJ"
+app.get("/samples/JCJ", (req, res) => {
+    // Filtrar comunidades con más de 100 accidentes mortales
+    let filteredData = trafficData.filter(entry => entry.fatal_accidents > 100);
+
+    let responseMessage;
+
+    if (filteredData.length > 0) {
+        // Calcular la media de fallecidos
+        let totalDeceased = filteredData.reduce((sum, entry) => sum + entry.deceased, 0);
+        let avgDeceased = totalDeceased / filteredData.length;
+
+        responseMessage = ` Media de fallecidos en comunidades con más de 100 accidentes mortales: ${avgDeceased.toFixed(2)}`;
+    } else {
+        responseMessage = "No hay comunidades con más de 100 accidentes mortales en los datos.";
+    }
+
+    // Enviar la respuesta al navegador
+    res.send(responseMessage);
 });
