@@ -35,8 +35,5 @@ if (totalGroups > 0) {
     console.log("No se encontraron datos de grupos de animales en los accidentes.");
 }
 
-// Mostrar el número de accidentes por grupo de animales
-//console.log("Número de accidentes por grupo de animales:");
-//for (let group in animalGroupCount) {
-//    console.log(`Grupo ${group}: ${animalGroupCount[group]} accidentes`);
-//}
+
+module.exports = { accidentData };
