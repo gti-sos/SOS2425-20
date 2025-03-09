@@ -13,7 +13,7 @@ let trafficData1 = [
 
 
 // FILTRAR CIUDADES CON MÁS DE 50.000 MULTAS POR RADAR
-let filteredData = trafficData.filter(entry => entry.fixed_radar > 50000);
+let filteredData = trafficData1.filter(entry => entry.fixed_radar > 50000);
 
 // CALCULAR LA MEDIA DE MULTAS 
 if (filteredData.length > 0) {
