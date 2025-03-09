@@ -27,7 +27,7 @@ app.get("/about",(request,response)=>{
 // index-CMR
 app.get("/samples/CMR", (req, res) => {
     // Filtrar ciudades con más de 50,000 multas por radar
-    let filteredData = trafficData.filter(entry => entry.fixed_radar > 50000);
+    let filteredData = trafficData1.filter(entry => entry.fixed_radar > 50000);
 
     let responseMessage;
 
