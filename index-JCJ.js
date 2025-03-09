@@ -11,3 +11,18 @@ let trafficData = [
     { autonomous_community: "Extremadura", fatal_accidents: 67, deceased: 70, vehicles_without_mot: 7, year: 2023 },
     { autonomous_community: "Galicia", fatal_accidents: 118, deceased: 128, vehicles_without_mot: 10, year: 2023 }
 ];
+
+// FILTRAR COMUNIDADES CON MÁS DE 100 ACCIDENTES MORTALES
+let filteredData = trafficData.filter(entry => entry.fatal_accidents > 100);
+
+// CALCULAR LA MEDIA DE DECEASED (FALLECIDOS)
+if (filteredData.length > 0) {
+    let totalDeceased = filteredData.reduce((sum, entry) => sum + entry.deceased, 0);
+    let avgDeceased = totalDeceased / filteredData.length;
+
+    console.log(`Media de fallecidos en comunidades con más de 100 accidentes mortales: ${avgDeceased.toFixed(2)}`);
+} else {
+    console.log(" No hay comunidades con más de 100 accidentes mortales en los datos.");
+}
+
+module.exports = { trafficData };
