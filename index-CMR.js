@@ -23,3 +23,4 @@ if (filteredData.length > 0) {
 } else {
     console.log(" No hay ciudades con más de 50.000 multas por radar en los datos.");
 }
+module.exports = { trafficData1 };
