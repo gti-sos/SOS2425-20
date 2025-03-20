@@ -5,6 +5,8 @@ const PORT = process.env.PORT || 16078;
 
 const BASE_API = "/api/v1"
 
+// Middleware para parsear JSON
+app.use(express.json()); //  Debe ir antes de definir las rutas
 
 const { trafficData } = require("./index-JCJ");
 const { trafficData1 } = require("./index-CMR");
