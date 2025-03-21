@@ -193,21 +193,30 @@ app.put(`${BASE_API}/traffic-accidents`, (req, res) => {
 
 // Actualizar los datos de una comunidad autónoma específica
 app.put(`${BASE_API}/traffic-accidents/:community`, (req, res) => {
-    let community = req.params.community;
+    let community = req.params.community; // Obtener comunidad desde la URL
     console.log(`New PUT to /traffic-accidents/${community}`);
 
     const index = trafficData.findIndex(entry => entry.autonomous_community === community);
-    
-    if (index >= 0) {
-        let updatedData = req.body;
-        trafficData[index] = {
-            ...trafficData[index], // Mantiene los datos actuales
-            ...updatedData        // Sobrescribe solo los campos enviados
-        };
-        res.status(200).json({ message: "Datos actualizados", data: trafficData[index] });
-    } else {   
-        res.status(404).json({ error: `No se encuentran datos de ${community}` });
+
+    //  Verificar si la comunidad de la URL existe en los datos
+    if (index < 0) {
+        return res.status(404).json({ error: `No se encuentran datos de ${community}` });
     }
+
+    let updatedData = req.body;
+
+    //  Verificar que el JSON contenga el mismo nombre que la URL
+    if (updatedData.autonomous_community !== community) {
+        return res.status(400).json({ error: "El nombre de la comunidad en la URL y en el cuerpo de la solicitud deben coincidir" });
+    }
+
+    // Actualizar solo los campos permitidos, sin cambiar la comunidad autónoma
+    trafficData[index] = {
+        ...trafficData[index], // Mantiene los datos actuales
+        ...updatedData        // Sobrescribe solo los campos enviados
+    };
+
+    res.status(200).json({ message: "Datos actualizados", data: trafficData[index] });
 });
 
 // Eliminar todos los accidentes de tráfico
