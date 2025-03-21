@@ -8,7 +8,7 @@ const BASE_API = "/api/v1"
 // Middleware para parsear JSON
 app.use(express.json()); //  Debe ir antes de definir las rutas
 
-const { trafficData } = require("./index-JCJ");
+let { trafficData } = require("./index-JCJ");
 const { trafficData1 } = require("./index-CMR");
 const { accidentData } = require("./index-JAC");
 
@@ -114,11 +114,7 @@ app.get("/samples/JAC", (req, res) => {
 app.get(`${BASE_API}/traffic-accidents/loadInitialData`, (req, res) => {
     console.log("New GET to /loadInitialData");
 
-    if (trafficData.length > 0) {
-        return res.status(400).json({ message: "El array ya contiene datos" });
-    }
-
-    trafficData = [
+    trafficData = [ 
         { autonomous_community: "Andalucía", fatal_accidents: 283, deceased: 310, vehicles_without_mot: 33, year: 2023 },
         { autonomous_community: "Aragón", fatal_accidents: 70, deceased: 75, vehicles_without_mot: 12, year: 2023 },
         { autonomous_community: "Asturias, Principado de", fatal_accidents: 45, deceased: 49, vehicles_without_mot: 8, year: 2023 },
@@ -135,6 +131,7 @@ app.get(`${BASE_API}/traffic-accidents/loadInitialData`, (req, res) => {
     console.log("Datos inicializados:", trafficData);
     res.status(201).json(trafficData);
 });
+
 
 
 // GET
@@ -216,9 +213,10 @@ app.put(`${BASE_API}/traffic-accidents/:community`, (req, res) => {
 // Eliminar todos los accidentes de tráfico
 app.delete(`${BASE_API}/traffic-accidents`, (req, res) => {
     console.log("New DELETE to /traffic-accidents");
-    trafficData.length = 0; // Vaciar el array
+    trafficData = []; //  Se reasigna correctamente el array
     res.status(200).json({ message: "Todos los datos han sido eliminados" });
 });
+
 
 // Eliminar los datos de una comunidad autónoma específica
 app.delete(`${BASE_API}/traffic-accidents/:community`, (req, res) => {

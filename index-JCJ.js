@@ -11,7 +11,7 @@ let trafficData = [
     { autonomous_community: "Extremadura", fatal_accidents: 67, deceased: 70, vehicles_without_mot: 7, year: 2023 },
     { autonomous_community: "Galicia", fatal_accidents: 118, deceased: 128, vehicles_without_mot: 10, year: 2023 }
 ];
-
+/*
 // FILTRAR COMUNIDADES CON MÁS DE 100 ACCIDENTES MORTALES
 let filteredData = trafficData.filter(entry => entry.fatal_accidents > 100);
 
@@ -24,5 +24,6 @@ if (filteredData.length > 0) {
 } else {
     console.log(" No hay comunidades con más de 100 accidentes mortales en los datos.");
 }
+    */
 
 module.exports = { trafficData };
