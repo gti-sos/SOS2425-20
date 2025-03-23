@@ -10,7 +10,7 @@ app.use(express.json()); //  Debe ir antes de definir las rutas
 
 let { trafficData } = require("./index-JCJ");
 const { trafficData1 } = require("./index-CMR");
-const { accidentData } = require("./index-JAC");
+let { accidentData } = require("./index-JAC");
 
 app.use("/",express.static("./public"));
 
@@ -244,7 +244,7 @@ app.delete(`${BASE_API}/traffic-accidents/:community`, (req, res) => {
 
 //Javi
 
-module.exports = { accidentData };
+// module.exports = { accidentData };
 
 app.get(`${BASE_API}/accidents/loadInitialData`, (req, res) => {
     console.log("New GET to /loadInitialData");
