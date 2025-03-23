@@ -243,6 +243,7 @@ app.delete(`${BASE_API}/traffic-accidents/:community`, (req, res) => {
 });
 
 //Javi
+
 module.exports = { accidentData };
 
 app.get(`${BASE_API}/accidents/loadInitialData`, (req, res) => {
@@ -286,7 +287,9 @@ app.get(`${BASE_API}/accidents/:community`, (req, res) => {
 app.post(`${BASE_API}/accidents`, (req, res) => {
     const newData = req.body;
     
-    if (!newData.id || !newData.autonomous_community || !newData.accident_date || !newData.province || !newData.road) {
+    if (newData.id === undefined || newData.n_deceased === undefined || newData.n_injures_hospitalized === undefined || newData.n_injured_no_hospitalized === undefined || newData.accident_date === undefined
+        || newData.accident_hour === undefined || newData.anyo === undefined || newData.autonomous_community === undefined || newData.province === undefined || newData.ine_municipality === undefined || newData.road === undefined 
+        || newData.km_road === undefined  || newData.type_of_road === undefined  || newData.animal_group === undefined  || newData.other_animal_group === undefined) {
         return res.status(400).json({ error: "Faltan datos requeridos" });
     }
     
