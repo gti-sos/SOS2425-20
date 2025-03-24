@@ -409,7 +409,7 @@ app.post(`${BASE_API}/fines`, (req, res) => {
     console.log("New POST to /fines");
     let newData = req.body;
 
-    // Verificar si ya existe un dato con la misma comunidad y año
+    // Verificar si ya existe un dato con la misma ciudad y año
     if (trafficData1.some(entry => 
         entry.year === newData.year && 
         entry.city === newData.city)) {
@@ -422,7 +422,73 @@ app.post(`${BASE_API}/fines`, (req, res) => {
         return res.status(400).json({ error: "Faltan datos requeridos" });
     }
 
-        // Agregar el nuevo dato a trafficData
+        // Agregar el nuevo dato 
         trafficData1.push(newData);
         res.sendStatus(201);
+});
+
+
+app.post(`${BASE_API}/fines/:city`, (req, res) => {
+    const city = req.params.city;
+    console.log(`New POST to /fines/${city}`);
+    res.status(405).json({ error: "Método POST no permitido" });
+});
+
+// PUT no permitido a nivel general
+app.put(`${BASE_API}/fines`, (req, res) => {
+    console.log("New PUT to /fines");
+    res.status(405).json({ error: "Método PUT no permitido" });
+});
+
+
+// Actualizar los datos de una ciudad específica
+app.put(`${BASE_API}/fines/:city`, (req, res) => {
+    let city = req.params.city; // Obtener comunidad desde la URL
+    console.log(`New PUT to /fines/${city}`);
+
+    const index = trafficData1.findIndex(entry => entry.city === city);
+
+    //  Verificar si la ciudad de la URL existe en los datos
+    if (index < 0) {
+        return res.status(404).json({ error: `No se encuentran datos de ${ciudad}` });
+    }
+
+    let updatedData = req.body;
+
+    //  Verificar que el JSON contenga el mismo nombre que la URL
+    if (updatedData.city !== city) {
+        return res.status(400).json({ error: "El nombre de la ciudad en la URL y en el cuerpo de la solicitud deben coincidir" });
+    }
+
+    // Actualizar solo los campos permitidos, sin cambiar la ciudad
+    trafficData1[index] = {
+        ...trafficData1[index], // Mantiene los datos actuales
+        ...updatedData        // Sobrescribe solo los campos enviados
+    };
+
+    res.status(200).json({ message: "Datos actualizados", data: trafficData1[index] });
+});
+
+
+// Eliminar todas las multas
+app.delete(`${BASE_API}/fines`, (req, res) => {
+    console.log("New DELETE to /fines");
+    trafficData1 = []; //  Se reasigna correctamente el array
+    res.status(200).json({ message: "Todos los datos han sido eliminados" });
+});
+
+
+// Eliminar los datos de una comunidad autónoma específica
+app.delete(`${BASE_API}/fines/:city`, (req, res) => {
+    const city = req.params.city;
+    console.log(`New DELETE to /fines/${city}`);
+
+    const exists = trafficData1.some(entry => entry.city === city);
+    
+    if (exists) {
+        trafficData1 = trafficData1.filter(entry => entry.city !== city);
+        res.status(200).json({ message: `Datos de ${city} eliminados`, data: trafficData1 });
+    } else {
+        res.status(404).json({ error: `No se encuentran datos de ${city}` });
+    }
 });
