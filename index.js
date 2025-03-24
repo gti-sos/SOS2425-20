@@ -373,7 +373,8 @@ app.get(`${BASE_API}/fines/loadInitialData`, (req, res) => {
         { city: "Toledo", itv: 19577, alcohol_rate: 861, fixed_radar: 67338, year: 2023},
         { city: "Valencia", itv: 43444, alcohol_rate: 4339, fixed_radar: 122354, year: 2023},
         { city: "Valladolid", itv: 7857, alcohol_rate: 671, fixed_radar: 28561, year: 2023},
-        { city: "Zaragoza", itv: 11704, alcohol_rate: 817, fixed_radar: 45231, year: 2023}
+        { city: "Zaragoza", itv: 11704, alcohol_rate: 817, fixed_radar: 45231, year: 2023},
+        { city: "Madrid", itv: 11704, alcohol_rate: 817, fixed_radar: 45231, year: 2024}
     ]
     
     console.log("Datos inicializados:", trafficData1);
