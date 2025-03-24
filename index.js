@@ -388,3 +388,41 @@ app.get(`${BASE_API}/fines`, (req, res) => {
     console.log("New GET to /fines");
     res.json(trafficData1);
 });
+
+
+app.get(`${BASE_API}/fines/:city`, (req, res) => {
+    const city = req.params.city;
+    console.log(`New GET to /fines/${city}`);
+
+    const search = trafficData1.filter(entry => entry.city === city);
+    
+    if (search.length > 0) {
+        return res.status(200).json(search);
+    } else {   
+        return res.status(404).json({ error: `No se encuentran datos de ${city}` });
+    }
+});
+
+
+// POST: Añadir un nueva multa 
+app.post(`${BASE_API}/fines`, (req, res) => {
+    console.log("New POST to /fines");
+    let newData = req.body;
+
+    // Verificar si ya existe un dato con la misma comunidad y año
+    if (trafficData1.some(entry => 
+        entry.year === newData.year && 
+        entry.city === newData.city)) {
+        return res.status(409).json({ error: "Ya existe un dato con esa comunidad y año" });
+    }
+
+    // Validar que todos los campos requeridos estén presentes
+    if (!newData.year || !newData.city || !newData.itv || 
+        !newData.alcohol_rate || !newData.fixed_radar) {
+        return res.status(400).json({ error: "Faltan datos requeridos" });
+    }
+
+        // Agregar el nuevo dato a trafficData
+        trafficData1.push(newData);
+        res.sendStatus(201);
+});
