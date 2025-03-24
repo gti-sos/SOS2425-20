@@ -358,7 +358,6 @@ app.put(`${BASE_API}/accidents`, (req, res) => {
 
 //CARLOS
 
-module.exports = { fineData };
 
 app.get(`${BASE_API}/fines/loadInitialData`, (req, res) => {
     console.log("New GET to /loadInitialData");
