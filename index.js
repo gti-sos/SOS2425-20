@@ -359,10 +359,11 @@ app.put(`${BASE_API}/accidents`, (req, res) => {
 //CARLOS
 
 
+
 app.get(`${BASE_API}/fines/loadInitialData`, (req, res) => {
     console.log("New GET to /loadInitialData");
 
-    fineData = [
+    trafficData1 = [
         { city: "Badajoz", itv: 10774, alcohol_rate: 662, fixed_radar: 52155, year: 2023},
         { city: "Coruña", itv: 10104, alcohol_rate: 4367, fixed_radar: 52765, year: 2023},
         { city: "Madrid", itv: 93644, alcohol_rate: 5870, fixed_radar: 302579, year: 2023},
@@ -375,8 +376,8 @@ app.get(`${BASE_API}/fines/loadInitialData`, (req, res) => {
         { city: "Zaragoza", itv: 11704, alcohol_rate: 817, fixed_radar: 45231, year: 2023}
     ]
     
-    console.log("Datos inicializados:", fineData);
-    res.status(201).json(fineData);
+    console.log("Datos inicializados:", trafficData1);
+    res.status(201).json(trafficData1);
 
 });
 
@@ -385,5 +386,5 @@ app.get(`${BASE_API}/fines/loadInitialData`, (req, res) => {
 // Obtener todas las multas
 app.get(`${BASE_API}/fines`, (req, res) => {
     console.log("New GET to /fines");
-    res.json(fineData);
+    res.json(trafficData1);
 });
