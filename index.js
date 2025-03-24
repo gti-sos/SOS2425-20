@@ -246,7 +246,7 @@ app.delete(`${BASE_API}/traffic-accidents/:community`, (req, res) => {
 
 module.exports = { accidentData };
 
-app.get(`${BASE_API}/accidents/loadInitialData`, (req, res) => {
+app.get(`${BASE_API}/accidents-with-animals/loadInitialData`, (req, res) => {
     console.log("New GET to /loadInitialData");
 
     accidentData = [
@@ -267,12 +267,12 @@ app.get(`${BASE_API}/accidents/loadInitialData`, (req, res) => {
 });
 
 // GET: Obtener todos los accidentes
-app.get(`${BASE_API}/accidents`, (req, res) => {
+app.get(`${BASE_API}/accidents-with-animals`, (req, res) => {
     res.json(accidentData);
 });
 
 // GET: Obtener accidentes por comunidad autónoma
-app.get(`${BASE_API}/accidents/:community`, (req, res) => {
+app.get(`${BASE_API}/accidents-with-animals/:community`, (req, res) => {
     const community = req.params.community.toLowerCase();
     const result = accidentData.filter(entry => entry.autonomous_community === community);
 
@@ -284,7 +284,7 @@ app.get(`${BASE_API}/accidents/:community`, (req, res) => {
 });
 
 // POST: Añadir un nuevo accidente (evitar duplicados)
-app.post(`${BASE_API}/accidents`, (req, res) => {
+app.post(`${BASE_API}/accidents-with-animals`, (req, res) => {
     const newData = req.body;
     
     if (newData.id === undefined || newData.n_deceased === undefined || newData.n_injures_hospitalized === undefined || newData.n_injured_no_hospitalized === undefined || newData.accident_date === undefined
@@ -302,7 +302,7 @@ app.post(`${BASE_API}/accidents`, (req, res) => {
 });
 
 // PUT: Actualizar datos de un accidente específico
-app.put(`${BASE_API}/accidents/:id`, (req, res) => {
+app.put(`${BASE_API}/accidents-with-animals/:id`, (req, res) => {
     const id = req.params.id;
     const updatedData = req.body;
     const index = accidentData.findIndex(entry => entry.id === id);
@@ -320,7 +320,7 @@ app.put(`${BASE_API}/accidents/:id`, (req, res) => {
 });
 
 // DELETE: Eliminar un accidente específico
-app.delete(`${BASE_API}/accidents/:id`, (req, res) => {
+app.delete(`${BASE_API}/accidents-with-animals/:id`, (req, res) => {
     const id = req.params.id;
     const initialLength = accidentData.length;
     
@@ -334,18 +334,18 @@ app.delete(`${BASE_API}/accidents/:id`, (req, res) => {
 });
 
 // DELETE: Eliminar todos los accidentes
-app.delete(`${BASE_API}/accidents`, (req, res) => {
+app.delete(`${BASE_API}/accidents-with-animals`, (req, res) => {
     accidentData = [];
     res.status(200).json({ message: "Todos los datos han sido eliminados" });
 });
 
 // Manejar todos los otros métodos no permitidos
-app.all(`${BASE_API}/accidents/*`, (req, res) => {
+app.all(`${BASE_API}/accidents-with-animals/*`, (req, res) => {
     res.sendStatus(405);
   });
 
 
-app.put(`${BASE_API}/accidents`, (req, res) => {
+app.put(`${BASE_API}/accidents-with-animals`, (req, res) => {
     res.sendStatus(405);
   });
 
