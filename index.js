@@ -443,7 +443,7 @@ app.put(`${BASE_API}/fines`, (req, res) => {
 
 // Actualizar los datos de una ciudad específica
 app.put(`${BASE_API}/fines/:city`, (req, res) => {
-    let city = req.params.city; // Obtener comunidad desde la URL
+    let city = req.params.city; // Obtener ciudad desde la URL
     console.log(`New PUT to /fines/${city}`);
 
     const index = trafficData1.findIndex(entry => entry.city === city);

@@ -11,7 +11,7 @@ let trafficData1 = [
     { city: "Zaragoza", itv: 11704, alcohol_rate: 817, fixed_radar: 45231, year: 2023}
 ]
 
-
+/*
 // FILTRAR CIUDADES CON MÁS DE 50.000 MULTAS POR RADAR
 let filteredData = trafficData1.filter(entry => entry.fixed_radar > 50000);
 
@@ -22,5 +22,5 @@ if (filteredData.length > 0) {
     console.log(`Media de multas por ITV en ciudades con más de 50.000 multas por radar: ${avg.toFixed(2)}`);
 } else {
     console.log(" No hay ciudades con más de 50.000 multas por radar en los datos.");
-}
+}  */
 module.exports = { trafficData1 };
