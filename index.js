@@ -12,7 +12,6 @@ const PORT = process.env.PORT || 16078;
 app.use(express.json()); //  Debe ir antes de definir las rutas
 
 
-let { trafficData } = require("./src/back/index-JCJ");
 app.use("/",express.static("./public"));
 
 //Cargar Backend
