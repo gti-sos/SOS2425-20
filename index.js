@@ -1,5 +1,6 @@
 import express from "express";
-import { loadBackendJCJ } from "src/back/index-JCJ.js"; 
+import { loadBackendJCJ } from "./src/back/index-JCJ.js"; 
+import path from "path";
 
 
 const app = express();
@@ -14,13 +15,15 @@ app.use(express.json()); //  Debe ir antes de definir las rutas
 let { trafficData } = require("./src/back/index-JCJ");
 app.use("/",express.static("./public"));
 
-//FUNCION IMPORTADA 
+//Cargar Backend
 loadBackendJCJ(app);
 
+//Ruta about
 app.get("/about",(request,response)=>{
     response.redirect("/about.html");
 });
 
+// Arrancar servidor
 app.listen(PORT,()=>{
     console.log(`Server running on port ${PORT}!`);
 });
