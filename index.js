@@ -2,6 +2,7 @@ import express from "express";
 import { loadBackendJCJ } from "./src/back/index-JCJ.js";
 import { loadBackendJAC } from "./src/back/index-JAC.js"; 
 import path from "path";
+import { loadBackendCMR } from "./src/back/index-CMR.js";
 
 
 const app = express();
@@ -18,6 +19,7 @@ app.use("/",express.static("./public"));
 //Cargar Backend
 loadBackendJCJ(app);
 loadBackendJAC(app);
+loadBackendCMR(app);
 
 //Ruta about
 app.get("/about",(request,response)=>{
