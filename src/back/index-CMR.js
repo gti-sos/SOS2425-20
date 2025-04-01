@@ -1,3 +1,4 @@
+const BASE_API = "/api/v1";
 let trafficData1 = [
     { city: "Badajoz", itv: 10774, alcohol_rate: 662, fixed_radar: 52155, year: 2023},
     { city: "Coruña", itv: 10104, alcohol_rate: 4367, fixed_radar: 52765, year: 2023},
