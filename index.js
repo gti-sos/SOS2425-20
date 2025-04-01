@@ -1,5 +1,6 @@
 import express from "express";
-import { loadBackendJCJ } from "./src/back/index-JCJ.js"; 
+import { loadBackendJCJ } from "./src/back/index-JCJ.js";
+import { loadBackendJAC } from "./src/back/index-JAC.js"; 
 import path from "path";
 
 
@@ -16,6 +17,7 @@ app.use("/",express.static("./public"));
 
 //Cargar Backend
 loadBackendJCJ(app);
+loadBackendJAC(app);
 
 //Ruta about
 app.get("/about",(request,response)=>{
