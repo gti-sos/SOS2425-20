@@ -17,6 +17,13 @@ let initialData = [
 ];
 
 function loadBackendJCJ(app) {
+    
+       // Redirección a documentación
+       app.get(BASE_API + "/traffic-accidents/docs", (req, res) => {
+        console.log("GET /traffic-accidents/docs");
+        res.redirect("https://documenter.getpostman.com/view/42526065/2sB2cRE5Ny");
+    });
+
     // Load Initial Data
     app.get(`${BASE_API}/traffic-accidents/loadInitialData`, (req, res) => {
         console.log("GET /traffic-accidents/loadInitialData");
@@ -135,11 +142,7 @@ function loadBackendJCJ(app) {
         });
     });
 
-    // Redirección a documentación
-    app.get(BASE_API + "/traffic-accidents/docs", (req, res) => {
-        console.log("GET /traffic-accidents/docs");
-        res.redirect("https://documenter.getpostman.com/view/42526065/2sB2cRE5Ny");
-    });
+ 
 }
 
 export { loadBackendJCJ };
