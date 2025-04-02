@@ -13,7 +13,9 @@ let initialData = [
     { autonomous_community: "Castilla y León", fatal_accidents: 151, deceased: 167, vehicles_without_mot: 12, year: 2023 },
     { autonomous_community: "Cataluña", fatal_accidents: 267, deceased: 288, vehicles_without_mot: 36, year: 2023 },
     { autonomous_community: "Extremadura", fatal_accidents: 67, deceased: 70, vehicles_without_mot: 7, year: 2023 },
-    { autonomous_community: "Galicia", fatal_accidents: 118, deceased: 128, vehicles_without_mot: 10, year: 2023 }
+    { autonomous_community: "Galicia", fatal_accidents: 118, deceased: 128, vehicles_without_mot: 10, year: 2023 },
+    { autonomous_community: "Galicia", fatal_accidents: 108, deceased: 110, vehicles_without_mot: 20, year: 2022 }
+    
 ];
 
 function loadBackendJCJ(app) {
@@ -38,14 +40,36 @@ function loadBackendJCJ(app) {
         });
     });
 
-    // GET All
+    // GET All CON FILTROS Y PAGINACION 
     app.get(`${BASE_API}/traffic-accidents`, (req, res) => {
-        console.log("GET /traffic-accidents");
-        db.find({}, (_err, data) => {
+        console.log("GET /traffic-accidents con filtros y paginación");
+    
+        const { autonomous_community, year, fatal_accidents, deceased, vehicles_without_mot, from, to } = req.query;
+        const query = {};
+    
+        if (autonomous_community) query.autonomous_community = autonomous_community;
+        if (year) query.year = parseInt(year);
+        if (fatal_accidents) query.fatal_accidents = parseInt(fatal_accidents);
+        if (deceased) query.deceased = parseInt(deceased);
+        if (vehicles_without_mot) query.vehicles_without_mot = parseInt(vehicles_without_mot);
+    
+        if (from && to) {
+            query.year = { $gte: parseInt(from), $lte: parseInt(to) };
+        } else if (from) {
+            query.year = { $gte: parseInt(from) };
+        } else if (to) {
+            query.year = { $lte: parseInt(to) };
+        }
+    
+        let limit = parseInt(req.query.limit) || 0;
+        let offset = parseInt(req.query.offset) || 0;
+    
+        db.find(query).skip(offset).limit(limit).exec((_err, data) => {
             data.forEach(d => delete d._id);
             res.status(200).json(data);
         });
     });
+    
 
     // GET by Community
     app.get(`${BASE_API}/traffic-accidents/:community`, (req, res) => {
