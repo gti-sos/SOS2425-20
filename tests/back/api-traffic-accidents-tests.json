@@ -913,12 +913,9 @@
 				"method": "PUT",
 				"header": [],
 				"url": {
-					"raw": "https://sos2425-20.onrender.com/api/v1/traffic-accidents",
-					"protocol": "https",
+					"raw": "{{BASE_URL}}/api/v1/traffic-accidents",
 					"host": [
-						"sos2425-20",
-						"onrender",
-						"com"
+						"{{BASE_URL}}"
 					],
 					"path": [
 						"api",
