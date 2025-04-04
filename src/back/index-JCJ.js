@@ -85,6 +85,21 @@ function loadBackendJCJ(app) {
         });
     });
 
+    // GET específico por comunidad y año
+    app.get(`${BASE_API}/traffic-accidents/:community/:year`, (req, res) => {
+        const { community, year } = req.params;
+        console.log(`GET /traffic-accidents/${community}/${year}`);
+        db.findOne({ autonomous_community: community, year: parseInt(year) }, (_err, data) => {
+            if (!data) {
+                console.log("No encontrado");
+                return res.status(404).json({ error: `No se encuentran datos de ${community} en ${year}` });
+            }
+            delete data._id;
+            res.status(200).json(data);
+        });
+    });
+
+
     // POST
     app.post(`${BASE_API}/traffic-accidents`, (req, res) => {
         console.log("POST /traffic-accidents");
@@ -142,6 +157,35 @@ function loadBackendJCJ(app) {
             }
         );
     });
+    
+    // PUT por comunidad y año
+    app.put(`${BASE_API}/traffic-accidents/:community/:year`, (req, res) => {
+        const { community, year } = req.params;
+        const updatedData = req.body;
+        console.log(`PUT /traffic-accidents/${community}/${year}`);
+    
+        if (
+            !updatedData.autonomous_community ||
+            !updatedData.year ||
+            updatedData.autonomous_community !== community ||
+            parseInt(updatedData.year) !== parseInt(year)
+        ) {
+            return res.status(400).json({ error: "El identificador del recurso en la URL debe coincidir con el cuerpo" });
+        }
+    
+        db.update(
+            { autonomous_community: community, year: parseInt(year) },
+            { $set: updatedData },
+            {},
+            (_err, numReplaced) => {
+                if (numReplaced === 0) {
+                    return res.status(404).json({ error: `No se encuentra el recurso para actualizar` });
+                }
+                res.status(200).json({ message: "Datos actualizados", data: updatedData });
+            }
+        );
+    });
+    
 
     // DELETE all
     app.delete(`${BASE_API}/traffic-accidents`, (req, res) => {
@@ -165,6 +209,20 @@ function loadBackendJCJ(app) {
             res.status(200).json({ message: `Datos de ${community} eliminados` });
         });
     });
+    
+    // DELETE por comunidad
+    app.delete(`${BASE_API}/traffic-accidents/:community/:year`, (req, res) => {
+        const { community, year } = req.params;
+        console.log(`DELETE /traffic-accidents/${community}/${year}`);
+    
+        db.remove({ autonomous_community: community, year: parseInt(year) }, {}, (_err, numRemoved) => {
+            if (numRemoved === 0) {
+                return res.status(404).json({ error: `No se encuentra el recurso a eliminar` });
+            }
+            res.status(200).json({ message: `Recurso de ${community} en ${year} eliminado correctamente` });
+        });
+    });
+    
 
  
 }
