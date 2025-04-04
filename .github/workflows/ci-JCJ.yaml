@@ -11,7 +11,7 @@ jobs:
         run: npm install
 
       - name: Run JCJ tests with server
-        run: npm run test-local-JCJ
+        run: npm run test-traffic-accidents
       - name: Deploy to Render
         uses: johnbeynon/render-deploy-action@v0.0.8
         with: 

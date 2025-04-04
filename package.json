@@ -8,7 +8,7 @@
     "start": "node index.js",
     "test-api-local-JCJ": "npx newman run tests/back/api-traffic-accidents-tests.json -e tests/back/api-env-local.json",
     "test-api-online-JCJ": "npx newman run tests/back/api-traffic-accidents-tests.json -e tests/back/api-env-online.json",
-    "test-local-JCJ": "start-server-and-test start http://localhost:16078 test-api-local-JCJ"
+    "test-traffic-accidents": "start-server-and-test start http://localhost:16078 test-api-local-JCJ"
 
   },
   "repository": {
