@@ -1,4 +1,4 @@
-const BASE_API = "/api/v1";
+const BASE_API = "/api/v1/accidents-with-animals";
 import dataStore from "nedb";
 
 let db = new dataStore();
@@ -44,17 +44,10 @@ if (totalGroups > 0) {
 
 function loadBackendJAC(app){
 
-    db.find({},(err,accidentData)=>{
-        if (accidentData.length < 1){
-            db.insert(InitialaccidentData);
-        }
-    });
-
-
-    app.get(`${BASE_API}/accidents-with-animals/loadInitialData`, (req, res) => {
-        console.log("New GET to /loadInitialData");
-        db.find({}, (err, accidentData) => {
-            if (accidentData.length > 0) {
+    app.get(`${BASE_API}/loadInitialData`, (req, res) => {
+        console.log("GET /accidents-with-animals/loadInitialData");
+        db.find({}, (_err, data) => {
+            if (data.length > 0) {
                 console.log("Datos ya existentes");
                 return res.status(400).json({ message: "El array ya contiene datos" });
             }
@@ -64,112 +57,113 @@ function loadBackendJAC(app){
         });
     });
 
+    // GET con filtros y paginación
+    app.get(BASE_API, (req, res) => {
+        const { autonomous_community, province, anyo, from, to } = req.query;
+        const query = {};
 
-    
-    
-    // GET: Obtener todos los accidentes
-    app.get(`${BASE_API}/accidents-with-animals`, (req, res) => {
-        console.log("New GET to /accidents-with-animals")
+        if (autonomous_community) query.autonomous_community = autonomous_community;
+        if (province) query.province = province;
+        if (anyo) query.anyo = parseInt(anyo);
 
-        db.find({},(err,accidentData)=>{
-            res.send(JSON.stringify(accidentData.map((c)=>{
-                delete c._id;
-                return c;
-            }),null,2));
+        if (from && to) {
+            query.anyo = { $gte: parseInt(from), $lte: parseInt(to) };
+        } else if (from) {
+            query.anyo = { $gte: parseInt(from) };
+        } else if (to) {
+            query.anyo = { $lte: parseInt(to) };
+        }
+
+        let limit = parseInt(req.query.limit) || 0;
+        let offset = parseInt(req.query.offset) || 0;
+
+        db.find(query).skip(offset).limit(limit).exec((err, data) => {
+            data.forEach(d => delete d._id);
+            res.status(200).json(data);
         });
     });
-    
-    // GET: Obtener accidentes por comunidad autónoma
-    app.get(`${BASE_API}/accidents-with-animals/:community`, (req, res) => {
-        console.log("New GET to /accidents-with-animals/:community")
-        const community = req.params.community.toLowerCase();
-        db.find({ autonomous_community: community }, (err, accidentData) => {
-            if (accidentData.length === 0) {
-                console.log("No encontrado");
+
+    // GET por comunidad
+    app.get(`${BASE_API}/:community`, (req, res) => {
+        const community = req.params.community;
+        db.find({ autonomous_community: community }, (err, data) => {
+            if (data.length === 0) {
                 return res.status(404).json({ error: `No se encuentran datos de ${community}` });
             }
-            accidentData.forEach(d => delete d._id);
-            res.status(200).json(accidentData);
+            data.forEach(d => delete d._id);
+            res.status(200).json(data);
         });
     });
-    
-    // POST: Añadir un nuevo accidente (evitar duplicados)
-    app.post(`${BASE_API}/accidents-with-animals`, (req, res) => {
-        console.log("New POST to /accidents-with-animals")
+
+    // POST
+    app.post(BASE_API, (req, res) => {
         let newData = req.body;
-        
         if (newData.id === undefined || newData.n_deceased === undefined || newData.n_injures_hospitalized === undefined || newData.n_injured_no_hospitalized === undefined || newData.accident_date === undefined
             || newData.accident_hour === undefined || newData.anyo === undefined || newData.autonomous_community === undefined || newData.province === undefined || newData.ine_municipality === undefined || newData.road === undefined 
             || newData.km_road === undefined  || newData.type_of_road === undefined  || newData.animal_group === undefined  || newData.other_animal_group === undefined) {
             return res.status(400).json({ error: "Faltan datos requeridos" });
         }
-        
+
         db.find({ id: newData.id }, (err, existingData) => {
             if (existingData.length > 0) {
-                console.log("Dato duplicado");
-                return res.status(409).json({ error: "Ya existe un dato con ese Id" });
+                return res.status(409).json({ error: "Ya existe un dato con ese ID" });
             }
             db.insert(newData);
-            console.log("Dato insertado correctamente");
             return res.sendStatus(201);
         });
     });
-    
-    // PUT: Actualizar datos de un accidente específico
-    app.put(`${BASE_API}/accidents-with-animals/:id`, (req, res) => {
-        console.log("New PUT to /accidents-with-animals/:id")
+
+    app.post(`${BASE_API}/:community`, (req, res) => {
+        res.status(405).json({ error: "Método POST no permitido" });
+    });
+
+    // PUT no permitido global
+    app.put(BASE_API, (req, res) => {
+        res.status(405).json({ error: "Método PUT no permitido" });
+    });
+
+    // PUT por id
+    app.put(`${BASE_API}/:id`, (req, res) => {
         const id = req.params.id;
         const updatedData = req.body;
 
-        if (updatedData.id && updatedData.id !== id) {
-            return res.status(400).json({ error: "El ID en la URL y el cuerpo deben coincidir" });
+        if (updatedData.id !== id) {
+            return res.status(400).json({ error: "El id en la URL y en el cuerpo deben coincidir" });
         }
 
-        db.find({ id: id }, (err, existingData) => {
-            if (err) return res.sendStatus(500);
-            if (!existingData.length) {
-                return res.status(404).json({ error: "Accidente no encontrado" });
+        db.update(
+            { id: id },
+            { $set: updatedData },
+            {},
+            (err, numReplaced) => {
+                if (numReplaced === 0) {
+                    return res.status(404).json({ error: `No se encuentran datos de ${id}` });
+                }
+                return res.status(200).json({ message: "Datos actualizados", data: updatedData });
             }
+        );
+    });
 
-            db.update({ id: id }, updatedData, {}, (err, num) => {
-                if (err || num === 0) return res.sendStatus(500);
-                return res.sendStatus(200);
-            });
+    // DELETE all
+    app.delete(`${BASE_API}`, (req, res) => {
+        console.log("DELETE /accidents-with-animals");
+        db.remove({}, { multi: true }, (_err, numRemoved) => {
+            console.log(`Eliminados ${numRemoved} registros`);
+            res.status(200).json({ message: "Todos los datos han sido eliminados" });
         });
     });
     
-    // DELETE: Eliminar un accidente específico
-    app.delete(`${BASE_API}/accidents-with-animals/:id`, (req, res) => {
+
+    // DELETE por id
+    app.delete(`${BASE_API}/:id`, (req, res) => {
         const id = req.params.id;
-        console.log(`DELETE /traffic-accidents/:id`);
-        db.remove({ id: id }, { multi: true }, (_err, numRemoved) => {
+        db.remove({ id: id }, { multi: true }, (err, numRemoved) => {
             if (numRemoved === 0) {
-                console.log("No encontrado para eliminar");
                 return res.status(404).json({ error: `No se encuentran datos de ${id}` });
             }
-            console.log(`Eliminados ${numRemoved} registros de ${id}`);
             res.status(200).json({ message: `Datos de ${id} eliminados` });
         });
     });
-    
-    // DELETE: Eliminar todos los accidentes
-    app.delete(`${BASE_API}/accidents-with-animals`, (req, res) => {
-        console.log("New DELETE to /accidents-with-animals")
-        db.remove({}, {multi:true}, (err, numRemoved) => {
-            console.log(`Eliminados ${numRemoved} registros`);
-            res.status(200).json({ message: "Todos los registros eliminados"})
-        });
-    });
-    
-    // Manejar todos los otros métodos no permitidos
-    app.all(`${BASE_API}/accidents-with-animals/*`, (req, res) => {
-        res.sendStatus(405);
-      });
-    
-    
-    app.put(`${BASE_API}/accidents-with-animals`, (req, res) => {
-        res.sendStatus(405);
-      });
 }
 
 export { loadBackendJAC };
