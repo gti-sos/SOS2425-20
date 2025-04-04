@@ -27,6 +27,12 @@ db.find({}, (err, data) => {
 
 function loadBackendCMR(app){
 
+    // Redirección a documentación
+    app.get(BASE_API + "/fines/docs", (req, res) => {
+        console.log("GET /fines/docs");
+        res.redirect("https://documenter.getpostman.com/view/42564550/2sB2cSi4pF#f75f8fcc-06f9-49f4-a869-e872b253cb7f");
+    });
+
     // Load Initial Data
     app.get(`${BASE_API}/fines/loadInitialData`, (req, res) => {
         console.log("GET /fines/loadInitialData");
@@ -36,6 +42,38 @@ function loadBackendCMR(app){
             return res.status(201).json(InitialTrafficData);
         });
     });
+
+
+    // GET All CON FILTROS Y PAGINACION 
+    app.get(`${BASE_API}/fines`, (req, res) => {
+        console.log("GET /fines con filtros y paginación");
+    
+        const { city, year, itv, fixed_radar, alcohol_rate, from, to } = req.query;
+        const query = {};
+    
+        if (city) query.city = city;
+        if (year) query.year = parseInt(year);
+        if (itv) query.itv = parseInt(itv);
+        if (fixed_radar) query.fixed_radar = parseInt(fixed_radar);
+        if (alcohol_rate) query.alcohol_rate = parseInt(alcohol_rate);
+    
+        if (from && to) {
+            query.year = { $gte: parseInt(from), $lte: parseInt(to) };
+        } else if (from) {
+            query.year = { $gte: parseInt(from) };
+        } else if (to) {
+            query.year = { $lte: parseInt(to) };
+        }
+    
+        let limit = parseInt(req.query.limit) || 0;
+        let offset = parseInt(req.query.offset) || 0;
+    
+        db.find(query).skip(offset).limit(limit).exec((_err, data) => {
+            data.forEach(d => delete d._id);
+            res.status(200).json(data);
+        });
+    });
+
     
     
     // GET
