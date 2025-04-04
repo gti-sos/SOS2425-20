@@ -44,6 +44,12 @@ if (totalGroups > 0) {
 
 function loadBackendJAC(app){
 
+    // Redirección a documentación
+    app.get(BASE_API + "/docs", (req, res) => {
+        console.log("GET /accidents-with-animals/docs");
+        res.redirect("https://documenter.getpostman.com/view/42547496/2sB2cUANTf");
+    });
+
     app.get(`${BASE_API}/loadInitialData`, (req, res) => {
         console.log("GET /accidents-with-animals/loadInitialData");
         db.find({}, (_err, data) => {

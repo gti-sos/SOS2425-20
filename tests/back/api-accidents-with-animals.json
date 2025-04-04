@@ -1,0 +1,465 @@
+{
+	"info": {
+		"_postman_id": "62a979a1-0bcf-41b3-832e-e3091ea9e681",
+		"name": "API accidents animals",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "42547496",
+		"_collection_link": "https://orange-firefly-958418.postman.co/workspace/SOS2425~a3543901-9c50-4c0e-8e5c-80ec2537c78c/collection/42547496-62a979a1-0bcf-41b3-832e-e3091ea9e681?action=share&source=collection_link&creator=42547496"
+	},
+	"item": [
+		{
+			"name": "GET /loadInitialData",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}/api/v1/accidents-with-animals/loadInitialData",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"accidents-with-animals",
+						"loadInitialData"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /total",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/api/v1/accidents-with-animals",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"accidents-with-animals"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /badajoz ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}/api/v1/accidents-with-animals?province=badajoz",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"accidents-with-animals"
+					],
+					"query": [
+						{
+							"key": "province",
+							"value": "badajoz"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /404 no se encuentran datos comunidad",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status is 404 Not Found\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}/api/v1/accidents-with-animals/catañuña",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"accidents-with-animals",
+						"catañuña"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST /2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"id\": \"2\",\r\n        \"n_deceased\": 1,\r\n        \"n_injures_hospitalized\": 1,\r\n        \"n_injured_no_hospitalized\": 1,\r\n        \"accident_date\": \"30/9/2023\",\r\n        \"accident_hour\": \"7:00\",\r\n        \"anyo\": 2023,\r\n        \"autonomous_community\": \"extremadura\",\r\n        \"province\": \"badajoz\",\r\n        \"ine_municipality\": 0,\r\n        \"road\": \"EX-105\",\r\n        \"km_road\": \"90\",\r\n        \"type_of_road\": 2,\r\n        \"animal_group\": 20,\r\n        \"other_animal_group\": 3\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/api/v1/accidents-with-animals",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"accidents-with-animals"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST /mismo id/error 409",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status is 409 Conflict\", function () {\r",
+							"    pm.response.to.have.status(409);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"id\": \"2\",\r\n        \"n_deceased\": 1,\r\n        \"n_injures_hospitalized\": 1,\r\n        \"n_injured_no_hospitalized\": 1,\r\n        \"accident_date\": \"30/9/2023\",\r\n        \"accident_hour\": \"7:00\",\r\n        \"anyo\": 2023,\r\n        \"autonomous_community\": \"extremadura\",\r\n        \"province\": \"badajoz\",\r\n        \"ine_municipality\": 0,\r\n        \"road\": \"EX-105\",\r\n        \"km_road\": \"90\",\r\n        \"type_of_road\": 2,\r\n        \"animal_group\": 20,\r\n        \"other_animal_group\": 3\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/api/v1/accidents-with-animals",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"accidents-with-animals"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST /faltan datos",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status is 400 Bad Request\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"id\": \"2\",\r\n        \"n_deceased\": 1,\r\n        \"n_injures_hospitalized\": 1,\r\n        \"n_injured_no_hospitalized\": 1,\r\n        \"accident_date\": \"30/9/2023\",\r\n        \"accident_hour\": \"7:00\",\r\n        \"anyo\": 2023,\r\n        \"autonomous_community\": \"extremadura\",\r\n        \"province\": \"badajoz\",\r\n        \"ine_municipality\": 0,\r\n        \"road\": \"EX-105\"\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/api/v1/accidents-with-animals",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"accidents-with-animals"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT /2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"id\": \"2\",\r\n        \"n_deceased\": 1,\r\n        \"n_injures_hospitalized\": 1,\r\n        \"n_injured_no_hospitalized\": 1,\r\n        \"accident_date\": \"30/9/2023\",\r\n        \"accident_hour\": \"7:00\",\r\n        \"anyo\": 2023,\r\n        \"autonomous_community\": \"extremadura\",\r\n        \"province\": \"badajoz\",\r\n        \"ine_municipality\": 0,\r\n        \"road\": \"EX-105\",\r\n        \"km_road\": \"90\",\r\n        \"type_of_road\": 2,\r\n        \"animal_group\": 20,\r\n        \"other_animal_group\": 3\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/api/v1/accidents-with-animals/2",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"accidents-with-animals",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT /405 no permitido",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status is 405 Method Not Allowed\", function () {\r",
+							"    pm.response.to.have.status(405);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}/api/v1/accidents-with-animals",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"accidents-with-animals"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE /2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}/api/v1/accidents-with-animals/2",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"accidents-with-animals",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE /accidents-with-animals",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}/api/v1/accidents-with-animals",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"accidents-with-animals"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
