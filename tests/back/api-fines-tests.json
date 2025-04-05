@@ -1,0 +1,1091 @@
+{
+	"info": {
+		"_postman_id": "f1d3dc27-e02f-4b92-98d4-e344c32d76ce",
+		"name": "L06",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "42564550"
+	},
+	"item": [
+		{
+			"name": "GET loadInitialData",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Código de estado válido (201 o 400)\", function () {\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([201, 400]);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"El cuerpo de respuesta es un objeto JSON\", function () {\r",
+							"    pm.response.to.have.header(\"Content-Type\");\r",
+							"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+							"    pm.expect(() => pm.response.json()).not.to.throw();\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}api/v1/fines/loadInitialData",
+					"host": [
+						"{{BASE_URL}}api"
+					],
+					"path": [
+						"v1",
+						"fines",
+						"loadInitialData"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET fines",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Código 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Es un array\", function () {\r",
+							"    pm.expect(pm.response.json()).to.be.an(\"array\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}api/v1/fines",
+					"host": [
+						"{{BASE_URL}}api"
+					],
+					"path": [
+						"v1",
+						"fines"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET filtro AÑO",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Código 200\", () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Es un array\", () => {\r",
+							"    pm.expect(pm.response.json()).to.be.an(\"array\");\r",
+							"});\r",
+							"\r",
+							"const queryParams = pm.request.url.query.toObject();\r",
+							"const jsonData = pm.response.json();\r",
+							"\r",
+							"Object.entries(queryParams).forEach(([key, value]) => {\r",
+							"    if ([\"limit\", \"offset\", \"from\", \"to\"].includes(key)) return;\r",
+							"\r",
+							"    const expected = isNaN(value) ? value : Number(value);\r",
+							"\r",
+							"    pm.test(`Todos los elementos tienen como ${key}: ${expected}`, () => {\r",
+							"        jsonData.forEach(item => {\r",
+							"            pm.expect(item[key]).to.eql(expected);\r",
+							"        });\r",
+							"    });\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}api/v1/fines?year=2023",
+					"host": [
+						"{{BASE_URL}}api"
+					],
+					"path": [
+						"v1",
+						"fines"
+					],
+					"query": [
+						{
+							"key": "year",
+							"value": "2023"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET filtro CIUDAD",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Código 200\", () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Es un array\", () => {\r",
+							"    pm.expect(pm.response.json()).to.be.an(\"array\");\r",
+							"});\r",
+							"\r",
+							"const queryParams = pm.request.url.query.toObject();\r",
+							"const jsonData = pm.response.json();\r",
+							"\r",
+							"Object.entries(queryParams).forEach(([key, value]) => {\r",
+							"    if ([\"limit\", \"offset\", \"from\", \"to\"].includes(key)) return;\r",
+							"\r",
+							"    const expected = isNaN(value) ? value : Number(value);\r",
+							"\r",
+							"    pm.test(`Todos los elementos tienen como ${key}: ${expected}`, () => {\r",
+							"        jsonData.forEach(item => {\r",
+							"            pm.expect(item[key]).to.eql(expected);\r",
+							"        });\r",
+							"    });\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}api/v1/fines?city=Sevilla",
+					"host": [
+						"{{BASE_URL}}api"
+					],
+					"path": [
+						"v1",
+						"fines"
+					],
+					"query": [
+						{
+							"key": "city",
+							"value": "Sevilla"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET filtro ITV",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Código 200\", () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Es un array\", () => {\r",
+							"    pm.expect(pm.response.json()).to.be.an(\"array\");\r",
+							"});\r",
+							"\r",
+							"const queryParams = pm.request.url.query.toObject();\r",
+							"const jsonData = pm.response.json();\r",
+							"\r",
+							"Object.entries(queryParams).forEach(([key, value]) => {\r",
+							"    if ([\"limit\", \"offset\", \"from\", \"to\"].includes(key)) return;\r",
+							"\r",
+							"    const expected = isNaN(value) ? value : Number(value);\r",
+							"\r",
+							"    pm.test(`Todos los elementos tienen como ${key}: ${expected}`, () => {\r",
+							"        jsonData.forEach(item => {\r",
+							"            pm.expect(item[key]).to.eql(expected);\r",
+							"        });\r",
+							"    });\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}api/v1/fines?itv=24173",
+					"host": [
+						"{{BASE_URL}}api"
+					],
+					"path": [
+						"v1",
+						"fines"
+					],
+					"query": [
+						{
+							"key": "itv",
+							"value": "24173"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET filtro FIXED_RADAR",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Código 200\", () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Es un array\", () => {\r",
+							"    pm.expect(pm.response.json()).to.be.an(\"array\");\r",
+							"});\r",
+							"\r",
+							"const queryParams = pm.request.url.query.toObject();\r",
+							"const jsonData = pm.response.json();\r",
+							"\r",
+							"Object.entries(queryParams).forEach(([key, value]) => {\r",
+							"    if ([\"limit\", \"offset\", \"from\", \"to\"].includes(key)) return;\r",
+							"\r",
+							"    const expected = isNaN(value) ? value : Number(value);\r",
+							"\r",
+							"    pm.test(`Todos los elementos tienen como ${key}: ${expected}`, () => {\r",
+							"        jsonData.forEach(item => {\r",
+							"            pm.expect(item[key]).to.eql(expected);\r",
+							"        });\r",
+							"    });\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}api/v1/fines?fixed_radar=67338",
+					"host": [
+						"{{BASE_URL}}api"
+					],
+					"path": [
+						"v1",
+						"fines"
+					],
+					"query": [
+						{
+							"key": "fixed_radar",
+							"value": "67338"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET filtro ALCOHOL_RATE",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Código 200\", () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Es un array\", () => {\r",
+							"    pm.expect(pm.response.json()).to.be.an(\"array\");\r",
+							"});\r",
+							"\r",
+							"const queryParams = pm.request.url.query.toObject();\r",
+							"const jsonData = pm.response.json();\r",
+							"\r",
+							"Object.entries(queryParams).forEach(([key, value]) => {\r",
+							"    if ([\"limit\", \"offset\", \"from\", \"to\"].includes(key)) return;\r",
+							"\r",
+							"    const expected = isNaN(value) ? value : Number(value);\r",
+							"\r",
+							"    pm.test(`Todos los elementos tienen como ${key}: ${expected}`, () => {\r",
+							"        jsonData.forEach(item => {\r",
+							"            pm.expect(item[key]).to.eql(expected);\r",
+							"        });\r",
+							"    });\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}api/v1/fines?alcohol_rate=5870",
+					"host": [
+						"{{BASE_URL}}api"
+					],
+					"path": [
+						"v1",
+						"fines"
+					],
+					"query": [
+						{
+							"key": "alcohol_rate",
+							"value": "5870"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET filtro AÑO y CIUDAD",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Código 200\", () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Es un array\", () => {\r",
+							"    pm.expect(pm.response.json()).to.be.an(\"array\");\r",
+							"});\r",
+							"\r",
+							"const queryParams = pm.request.url.query.toObject();\r",
+							"const jsonData = pm.response.json();\r",
+							"\r",
+							"Object.entries(queryParams).forEach(([key, value]) => {\r",
+							"    if ([\"limit\", \"offset\", \"from\", \"to\"].includes(key)) return;\r",
+							"\r",
+							"    const expected = isNaN(value) ? value : Number(value);\r",
+							"\r",
+							"    pm.test(`Todos los elementos tienen como ${key}: ${expected}`, () => {\r",
+							"        jsonData.forEach(item => {\r",
+							"            pm.expect(item[key]).to.eql(expected);\r",
+							"        });\r",
+							"    });\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}api/v1/fines?year=2023&city=Madrid",
+					"host": [
+						"{{BASE_URL}}api"
+					],
+					"path": [
+						"v1",
+						"fines"
+					],
+					"query": [
+						{
+							"key": "year",
+							"value": "2023"
+						},
+						{
+							"key": "city",
+							"value": "Madrid"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET rango",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Código 200\", () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Es un array\", () => {\r",
+							"    pm.expect(pm.response.json()).to.be.an(\"array\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}api/v1/fines?from=2019&to=2025",
+					"host": [
+						"{{BASE_URL}}api"
+					],
+					"path": [
+						"v1",
+						"fines"
+					],
+					"query": [
+						{
+							"key": "from",
+							"value": "2019"
+						},
+						{
+							"key": "to",
+							"value": "2025"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET lista vacía",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Código 200\", () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Es un array\", () => {\r",
+							"    pm.expect(pm.response.json()).to.be.an(\"array\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}api/v1/fines?year=2010",
+					"host": [
+						"{{BASE_URL}}api"
+					],
+					"path": [
+						"v1",
+						"fines"
+					],
+					"query": [
+						{
+							"key": "year",
+							"value": "2010"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET paginación",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Código 200\", () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Es un array\", () => {\r",
+							"    pm.expect(pm.response.json()).to.be.an(\"array\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"El array tiene máximo 5 elementos\", () => {\r",
+							"    const data = pm.response.json();\r",
+							"    pm.expect(data.length).to.be.at.most(5);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}api/v1/fines?limit=5&offset=0",
+					"host": [
+						"{{BASE_URL}}api"
+					],
+					"path": [
+						"v1",
+						"fines"
+					],
+					"query": [
+						{
+							"key": "limit",
+							"value": "5"
+						},
+						{
+							"key": "offset",
+							"value": "0"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET paginación filtro",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Código 200\", () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"La respuesta es un array\", () => {\r",
+							"    pm.expect(pm.response.json()).to.be.an(\"array\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"El array tiene máximo 2 elementos\", () => {\r",
+							"    const data = pm.response.json();\r",
+							"    pm.expect(data.length).to.be.at.most(2);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Todos los elementos tienen como city: Sevilla\", () => {\r",
+							"    const data = pm.response.json();\r",
+							"    data.forEach(item => {\r",
+							"        pm.expect(item.city).to.eql(\"Sevilla\");\r",
+							"    });\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}api/v1/fines?city=Sevilla&limit=2&offset=0",
+					"host": [
+						"{{BASE_URL}}api"
+					],
+					"path": [
+						"v1",
+						"fines"
+					],
+					"query": [
+						{
+							"key": "city",
+							"value": "Sevilla"
+						},
+						{
+							"key": "limit",
+							"value": "2"
+						},
+						{
+							"key": "offset",
+							"value": "0"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FALLO 404",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Debe devolver 404\", () => {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"El error esperado se maneja correctamente\", function () {\r",
+							"    let jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData).to.have.property(\"error\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://sos2425-20.onrender.com/api/v1/fines/Segovia",
+					"protocol": "https",
+					"host": [
+						"sos2425-20",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"fines",
+						"Segovia"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST Burgos",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Código 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"city\": \"Burgos\",\r\n        \"itv\": 7857,\r\n        \"alcohol_rate\": 671,\r\n        \"fixed_radar\": 28561,\r\n        \"year\": 2023\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}api/v1/fines",
+					"host": [
+						"{{BASE_URL}}api"
+					],
+					"path": [
+						"v1",
+						"fines"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FALLO 400",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Debe devolver 400\", () => {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"El error esperado se maneja correctamente\", function () {\r",
+							"    let jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData).to.have.property(\"error\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"city\": \"Albacete\",\r\n        \"itv\": 11704,\r\n        \"alcohol_rate\": 817,\r\n        \"fixed_radar\": 45231,\r\n        \"siglo\": 21\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://sos2425-20.onrender.com/api/v1/fines",
+					"protocol": "https",
+					"host": [
+						"sos2425-20",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"fines"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FALLO 405",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Debe devolver 405\", () => {\r",
+							"    pm.response.to.have.status(405);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"El error esperado se maneja correctamente\", function () {\r",
+							"    let jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData).to.have.property(\"error\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://sos2425-20.onrender.com/api/v1/fines/Madrid",
+					"protocol": "https",
+					"host": [
+						"sos2425-20",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"fines",
+						"Madrid"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FALLO 409",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Debe devolver 409\", () => {\r",
+							"    pm.response.to.have.status(409);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"El error esperado se maneja correctamente\", function () {\r",
+							"    let jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData).to.have.property(\"error\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"city\": \"Madrid\",\r\n        \"itv\": 11704,\r\n        \"alcohol_rate\": 817,\r\n        \"fixed_radar\": 45231,\r\n        \"year\": 2023\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://sos2425-20.onrender.com/api/v1/fines",
+					"protocol": "https",
+					"host": [
+						"sos2425-20",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"fines"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT Burgos",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Código 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"city\": \"Burgos\",\r\n        \"itv\": 1,\r\n        \"alcohol_rate\": 2,\r\n        \"fixed_radar\": 3,\r\n        \"year\": 2023\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}api/v1/fines/Burgos",
+					"host": [
+						"{{BASE_URL}}api"
+					],
+					"path": [
+						"v1",
+						"fines",
+						"Burgos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Fallo PUT",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Debe devolver 400\", () => {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"El error esperado se maneja correctamente\", function () {\r",
+							"    let jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData).to.have.property(\"error\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"city\": \"Cadiz\",\r\n        \"itv\": 11704,\r\n        \"alcohol_rate\": 817,\r\n        \"fixed_radar\": 45231,\r\n        \"year\": 2023\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://sos2425-20.onrender.com/api/v1/fines/Madrid",
+					"protocol": "https",
+					"host": [
+						"sos2425-20",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"fines",
+						"Madrid"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE Burgos",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"if (pm.request.method === \"DELETE\") {\r",
+							"    pm.test(\"DELETE ha sido exitoso\", function () {\r",
+							"        pm.response.to.have.status(200);\r",
+							"    });\r",
+							"}"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}api/v1/fines/Burgos",
+					"host": [
+						"{{BASE_URL}}api"
+					],
+					"path": [
+						"v1",
+						"fines",
+						"Burgos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE fines",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"if (pm.request.method === \"DELETE\") {\r",
+							"    pm.test(\"DELETE ha sido exitoso\", function () {\r",
+							"        pm.response.to.have.status(200);\r",
+							"    });\r",
+							"}"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}api/v1/fines",
+					"host": [
+						"{{BASE_URL}}api"
+					],
+					"path": [
+						"v1",
+						"fines"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

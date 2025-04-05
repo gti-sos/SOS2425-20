@@ -11,7 +11,10 @@
     "test-traffic-accidents": "start-server-and-test start http://localhost:16078 test-api-local-JCJ",
     "test-api-local-JAC": "npx newman run tests/back/api-accidents-with-animals.json -e tests/back/api-env-local.json",
     "test-api-online-JAC": "npx newman run tests/back/api-accidents-with-animals.json -e tests/back/api-env-online.json",
-    "test-accidents-with-animals": "start-server-and-test start http://localhost:16078 test-api-local-JAC"
+    "test-accidents-with-animals": "start-server-and-test start http://localhost:16078 test-api-local-JAC",
+    "test-api-local-CMR": "npx newman run tests/back/api-fines-tests.json -e tests/back/api-env-local.json",
+    "test-api-online-CMR": "npx newman run tests/back/api-fines-tests.json -e tests/back/api-env-online.json",
+    "test-fines": "start-server-and-test start http://localhost:16078 test-api-local-CMR"
   },
   "repository": {
     "type": "git",

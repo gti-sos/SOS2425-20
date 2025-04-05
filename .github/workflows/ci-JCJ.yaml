@@ -16,6 +16,9 @@ jobs:
       - name: Run JAC tests with server
         run: npm run test-accidents-with-animals
 
+      - name: Run CMR tests with server
+        run: npm run test-fines
+
       - name: Deploy to Render
         uses: johnbeynon/render-deploy-action@v0.0.8
         with: 
