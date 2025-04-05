@@ -15,13 +15,13 @@
     "test-api-local-CMR": "npx newman run tests/back/api-fines-tests.json -e tests/back/api-env-local.json",
     "test-api-online-CMR": "npx newman run tests/back/api-fines-tests.json -e tests/back/api-env-online.json",
     "test-fines": "start-server-and-test start http://localhost:16078 test-api-local-CMR"
+    
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/gti-sos/SOS2425-20.git"
   },
-  "author": "",
-  "license": "ISC",
+
   "bugs": {
     "url": "https://github.com/gti-sos/SOS2425-20/issues"
   },
@@ -33,5 +33,11 @@
   },
   "devDependencies": {
     "start-server-and-test": "^2.0.11"
-  }
+  },
+  "directories": {
+    "test": "tests"
+  },
+  "keywords": [
+    ""
+  ]
 }

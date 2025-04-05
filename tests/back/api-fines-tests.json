@@ -36,11 +36,12 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{BASE_URL}}api/v1/fines/loadInitialData",
+					"raw": "{{BASE_URL}}/api/v1/fines/loadInitialData",
 					"host": [
-						"{{BASE_URL}}api"
+						"{{BASE_URL}}"
 					],
 					"path": [
+						"api",
 						"v1",
 						"fines",
 						"loadInitialData"
@@ -73,11 +74,12 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{BASE_URL}}api/v1/fines",
+					"raw": "{{BASE_URL}}/api/v1/fines",
 					"host": [
-						"{{BASE_URL}}api"
+						"{{BASE_URL}}"
 					],
 					"path": [
+						"api",
 						"v1",
 						"fines"
 					]
@@ -127,11 +129,12 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{BASE_URL}}api/v1/fines?year=2023",
+					"raw": "{{BASE_URL}}/api/v1/fines?year=2023",
 					"host": [
-						"{{BASE_URL}}api"
+						"{{BASE_URL}}"
 					],
 					"path": [
+						"api",
 						"v1",
 						"fines"
 					],
@@ -187,11 +190,12 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{BASE_URL}}api/v1/fines?city=Sevilla",
+					"raw": "{{BASE_URL}}/api/v1/fines?city=Sevilla",
 					"host": [
-						"{{BASE_URL}}api"
+						"{{BASE_URL}}"
 					],
 					"path": [
+						"api",
 						"v1",
 						"fines"
 					],
@@ -247,11 +251,12 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{BASE_URL}}api/v1/fines?itv=24173",
+					"raw": "{{BASE_URL}}/api/v1/fines?itv=24173",
 					"host": [
-						"{{BASE_URL}}api"
+						"{{BASE_URL}}"
 					],
 					"path": [
+						"api",
 						"v1",
 						"fines"
 					],
@@ -307,11 +312,12 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{BASE_URL}}api/v1/fines?fixed_radar=67338",
+					"raw": "{{BASE_URL}}/api/v1/fines?fixed_radar=67338",
 					"host": [
-						"{{BASE_URL}}api"
+						"{{BASE_URL}}"
 					],
 					"path": [
+						"api",
 						"v1",
 						"fines"
 					],
@@ -367,11 +373,12 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{BASE_URL}}api/v1/fines?alcohol_rate=5870",
+					"raw": "{{BASE_URL}}/api/v1/fines?alcohol_rate=5870",
 					"host": [
-						"{{BASE_URL}}api"
+						"{{BASE_URL}}"
 					],
 					"path": [
+						"api",
 						"v1",
 						"fines"
 					],
@@ -427,11 +434,12 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{BASE_URL}}api/v1/fines?year=2023&city=Madrid",
+					"raw": "{{BASE_URL}}/api/v1/fines?year=2023&city=Madrid",
 					"host": [
-						"{{BASE_URL}}api"
+						"{{BASE_URL}}"
 					],
 					"path": [
+						"api",
 						"v1",
 						"fines"
 					],
@@ -476,11 +484,12 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{BASE_URL}}api/v1/fines?from=2019&to=2025",
+					"raw": "{{BASE_URL}}/api/v1/fines?from=2019&to=2025",
 					"host": [
-						"{{BASE_URL}}api"
+						"{{BASE_URL}}"
 					],
 					"path": [
+						"api",
 						"v1",
 						"fines"
 					],
@@ -525,11 +534,12 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{BASE_URL}}api/v1/fines?year=2010",
+					"raw": "{{BASE_URL}}/api/v1/fines?year=2010",
 					"host": [
-						"{{BASE_URL}}api"
+						"{{BASE_URL}}"
 					],
 					"path": [
+						"api",
 						"v1",
 						"fines"
 					],
@@ -575,11 +585,12 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{BASE_URL}}api/v1/fines?limit=5&offset=0",
+					"raw": "{{BASE_URL}}/api/v1/fines?limit=5&offset=0",
 					"host": [
-						"{{BASE_URL}}api"
+						"{{BASE_URL}}"
 					],
 					"path": [
+						"api",
 						"v1",
 						"fines"
 					],
@@ -637,11 +648,12 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{BASE_URL}}api/v1/fines?city=Sevilla&limit=2&offset=0",
+					"raw": "{{BASE_URL}}/api/v1/fines?city=Sevilla&limit=2&offset=0",
 					"host": [
-						"{{BASE_URL}}api"
+						"{{BASE_URL}}"
 					],
 					"path": [
+						"api",
 						"v1",
 						"fines"
 					],
@@ -691,12 +703,9 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://sos2425-20.onrender.com/api/v1/fines/Segovia",
-					"protocol": "https",
+					"raw": "{{BASE_URL}}/api/v1/fines/Segovia",
 					"host": [
-						"sos2425-20",
-						"onrender",
-						"com"
+						"{{BASE_URL}}"
 					],
 					"path": [
 						"api",
@@ -740,11 +749,12 @@
 					}
 				},
 				"url": {
-					"raw": "{{BASE_URL}}api/v1/fines",
+					"raw": "{{BASE_URL}}/api/v1/fines",
 					"host": [
-						"{{BASE_URL}}api"
+						"{{BASE_URL}}"
 					],
 					"path": [
+						"api",
 						"v1",
 						"fines"
 					]
@@ -789,12 +799,9 @@
 					}
 				},
 				"url": {
-					"raw": "https://sos2425-20.onrender.com/api/v1/fines",
-					"protocol": "https",
+					"raw": "{{BASE_URL}}/api/v1/fines",
 					"host": [
-						"sos2425-20",
-						"onrender",
-						"com"
+						"{{BASE_URL}}"
 					],
 					"path": [
 						"api",
@@ -842,12 +849,9 @@
 					}
 				},
 				"url": {
-					"raw": "https://sos2425-20.onrender.com/api/v1/fines/Madrid",
-					"protocol": "https",
+					"raw": "{{BASE_URL}}/api/v1/fines/Madrid",
 					"host": [
-						"sos2425-20",
-						"onrender",
-						"com"
+						"{{BASE_URL}}"
 					],
 					"path": [
 						"api",
@@ -896,12 +900,9 @@
 					}
 				},
 				"url": {
-					"raw": "https://sos2425-20.onrender.com/api/v1/fines",
-					"protocol": "https",
+					"raw": "{{BASE_URL}}/api/v1/fines",
 					"host": [
-						"sos2425-20",
-						"onrender",
-						"com"
+						"{{BASE_URL}}"
 					],
 					"path": [
 						"api",
@@ -945,11 +946,12 @@
 					}
 				},
 				"url": {
-					"raw": "{{BASE_URL}}api/v1/fines/Burgos",
+					"raw": "{{BASE_URL}}/api/v1/fines/Burgos",
 					"host": [
-						"{{BASE_URL}}api"
+						"{{BASE_URL}}"
 					],
 					"path": [
+						"api",
 						"v1",
 						"fines",
 						"Burgos"
@@ -995,12 +997,9 @@
 					}
 				},
 				"url": {
-					"raw": "https://sos2425-20.onrender.com/api/v1/fines/Madrid",
-					"protocol": "https",
+					"raw": "{{BASE_URL}}/api/v1/fines/Madrid",
 					"host": [
-						"sos2425-20",
-						"onrender",
-						"com"
+						"{{BASE_URL}}"
 					],
 					"path": [
 						"api",
@@ -1037,11 +1036,12 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "{{BASE_URL}}api/v1/fines/Burgos",
+					"raw": "{{BASE_URL}}/api/v1/fines/Burgos",
 					"host": [
-						"{{BASE_URL}}api"
+						"{{BASE_URL}}"
 					],
 					"path": [
+						"api",
 						"v1",
 						"fines",
 						"Burgos"
@@ -1075,11 +1075,12 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "{{BASE_URL}}api/v1/fines",
+					"raw": "{{BASE_URL}}/api/v1/fines",
 					"host": [
-						"{{BASE_URL}}api"
+						"{{BASE_URL}}"
 					],
 					"path": [
+						"api",
 						"v1",
 						"fines"
 					]
