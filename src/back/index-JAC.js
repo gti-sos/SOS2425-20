@@ -170,6 +170,52 @@ function loadBackendJAC(app){
             res.status(200).json({ message: `Datos de ${id} eliminados` });
         });
     });
+
+    //Punto 7
+
+    // GET recurso por provincia y grupo de animal (identificador compuesto)
+    app.get(`${BASE_API}/:province/:animal_group`, (req, res) => {
+        const { province, animal_group } = req.params;
+        db.find({ province: province.toLowerCase(), animal_group: parseInt(animal_group) }, (err, data) => {
+            if (data.length === 0) {
+                return res.status(404).json({ error: `No se encuentran datos de ${province} con grupo animal ${animal_group}` });
+            }
+            data.forEach(d => delete d._id);
+            res.status(200).json(data);
+        });
+    });
+    
+        // PUT recurso por provincia y grupo de animal (identificador compuesto)
+    app.put(`${BASE_API}/:province/:animal_group`, (req, res) => {
+        const { province, animal_group } = req.params;
+        const updatedData = req.body;
+    
+        db.update(
+            { province: province.toLowerCase(), animal_group: parseInt(animal_group) },
+            { $set: updatedData },
+            { multi: true }, // en caso de múltiples coincidencias
+            (err, numReplaced) => {
+                if (numReplaced === 0) {
+                    return res.status(404).json({ error: `No se encuentran datos de ${province} con grupo animal ${animal_group}` });
+                }
+                return res.status(200).json({ message: `${numReplaced} datos actualizados en ${province} con grupo ${animal_group}` });
+            }
+        );
+    });
+    
+    // DELETE recurso por provincia y grupo de animal (identificador compuesto)
+    app.delete(`${BASE_API}/:province/:animal_group`, (req, res) => {
+        const { province, animal_group } = req.params;
+    
+        db.remove({ province: province.toLowerCase(), animal_group: parseInt(animal_group) }, { multi: true }, (err, numRemoved) => {
+            if (numRemoved === 0) {
+                return res.status(404).json({ error: `No se encuentran datos de ${province} con grupo animal ${animal_group}` });
+            }
+            return res.status(200).json({ message: `${numRemoved} datos eliminados de ${province} con grupo ${animal_group}` });
+        });
+    });
+    
+    
 }
 
 export { loadBackendJAC };
