@@ -79,14 +79,15 @@
 					}
 				},
 				"url": {
-					"raw": "{{BASE_URL}}/api/v1/accidents-with-animals",
+					"raw": "{{BASE_URL}}/api/v1/accidents-with-animals/",
 					"host": [
 						"{{BASE_URL}}"
 					],
 					"path": [
 						"api",
 						"v1",
-						"accidents-with-animals"
+						"accidents-with-animals",
+						""
 					]
 				}
 			},
@@ -129,6 +130,44 @@
 							"key": "province",
 							"value": "badajoz"
 						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /badajoz/20",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}/api/v1/accidents-with-animals/badajoz/20",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"accidents-with-animals",
+						"badajoz",
+						"20"
 					]
 				}
 			},
@@ -353,6 +392,53 @@
 			"response": []
 		},
 		{
+			"name": "PUT /badajoz/20",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\r\n    {\r\n        \"id\": \"202306203193\",\r\n        \"n_deceased\": 0,\r\n        \"n_injures_hospitalized\": 0,\r\n        \"n_injured_no_hospitalized\": 0,\r\n        \"accident_date\": \"29/9/2023\",\r\n        \"accident_hour\": \"7:00\",\r\n        \"anyo\": 2022,\r\n        \"autonomous_community\": \"extremadura\",\r\n        \"province\": \"badajoz\",\r\n        \"ine_municipality\": 0,\r\n        \"road\": \"EX-105\",\r\n        \"km_road\": \"90\",\r\n        \"type_of_road\": 2,\r\n        \"animal_group\": 20,\r\n        \"other_animal_group\": 2\r\n    }\r\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/api/v1/accidents-with-animals/badajoz/20",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"accidents-with-animals",
+						"badajoz",
+						"20"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "PUT /405 no permitido",
 			"event": [
 				{
@@ -420,6 +506,44 @@
 						"v1",
 						"accidents-with-animals",
 						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE /badajoz/20",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}/api/v1/accidents-with-animals/badajoz/20",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"accidents-with-animals",
+						"badajoz",
+						"20"
 					]
 				}
 			},

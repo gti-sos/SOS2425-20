@@ -172,8 +172,7 @@ function loadBackendJAC(app){
     });
 
     //Punto 7
-
-    // GET recurso por provincia y grupo de animal (identificador compuesto)
+   // GET recurso por provincia y grupo de animal (identificador compuesto)
     app.get(`${BASE_API}/:province/:animal_group`, (req, res) => {
         const { province, animal_group } = req.params;
         db.find({ province: province.toLowerCase(), animal_group: parseInt(animal_group) }, (err, data) => {
@@ -181,9 +180,16 @@ function loadBackendJAC(app){
                 return res.status(404).json({ error: `No se encuentran datos de ${province} con grupo animal ${animal_group}` });
             }
             data.forEach(d => delete d._id);
-            res.status(200).json(data);
+            
+            // Comprobamos si hay uno o varios
+            if (data.length === 1) {
+                res.status(200).json(data[0]); // Devolver objeto
+            } else {
+                res.status(200).json(data);    // Devolver array
+            }
         });
     });
+
     
         // PUT recurso por provincia y grupo de animal (identificador compuesto)
     app.put(`${BASE_API}/:province/:animal_group`, (req, res) => {
