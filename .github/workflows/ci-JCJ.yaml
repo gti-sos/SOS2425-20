@@ -12,6 +12,10 @@ jobs:
 
       - name: Run JCJ tests with server
         run: npm run test-traffic-accidents
+
+      - name: Run JAC tests with server
+        run: npm run test-accidents-with-animals
+
       - name: Deploy to Render
         uses: johnbeynon/render-deploy-action@v0.0.8
         with: 

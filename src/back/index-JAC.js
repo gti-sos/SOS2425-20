@@ -104,12 +104,28 @@ function loadBackendJAC(app){
     // POST
     app.post(BASE_API, (req, res) => {
         let newData = req.body;
-        if (newData.id === undefined || newData.n_deceased === undefined || newData.n_injures_hospitalized === undefined || newData.n_injured_no_hospitalized === undefined || newData.accident_date === undefined
-            || newData.accident_hour === undefined || newData.anyo === undefined || newData.autonomous_community === undefined || newData.province === undefined || newData.ine_municipality === undefined || newData.road === undefined 
-            || newData.km_road === undefined  || newData.type_of_road === undefined  || newData.animal_group === undefined  || newData.other_animal_group === undefined) {
-            return res.status(400).json({ error: "Faltan datos requeridos" });
+    
+        const expectedFields = [
+            "id", "n_deceased", "n_injures_hospitalized", "n_injured_no_hospitalized",
+            "accident_date", "accident_hour", "anyo", "autonomous_community",
+            "province", "ine_municipality", "road", "km_road", "type_of_road",
+            "animal_group", "other_animal_group"
+        ];
+    
+        const receivedFields = Object.keys(newData);
+    
+        // Verificar que todos los campos requeridos estén y que no haya campos extra
+        const missingFields = expectedFields.filter(field => !receivedFields.includes(field));
+        const extraFields = receivedFields.filter(field => !expectedFields.includes(field));
+    
+        if (missingFields.length > 0 || extraFields.length > 0) {
+            return res.status(400).json({
+                error: "La estructura del JSON no es válida",
+                missingFields,
+                extraFields
+            });
         }
-
+    
         db.find({ id: newData.id }, (err, existingData) => {
             if (existingData.length > 0) {
                 return res.status(409).json({ error: "Ya existe un dato con ese ID" });
@@ -118,6 +134,7 @@ function loadBackendJAC(app){
             return res.sendStatus(201);
         });
     });
+    
 
     app.post(`${BASE_API}/:community`, (req, res) => {
         res.status(405).json({ error: "Método POST no permitido" });
