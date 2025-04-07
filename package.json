@@ -14,14 +14,9 @@
     "test-accidents-with-animals": "start-server-and-test start http://localhost:16078 test-api-local-JAC",
     "test-api-local-CMR": "npx newman run tests/back/api-fines-tests.json -e tests/back/api-env-local.json",
     "test-api-online-CMR": "npx newman run tests/back/api-fines-tests.json -e tests/back/api-env-online.json",
-<<<<<<< HEAD
-    "test-fines": "start-server-and-test start http://localhost:16078 test-api-local-CMR"
-
-=======
     "test-fines": "start-server-and-test start http://localhost:16078 test-api-local-CMR",
     "test-api-local": "npm run test-api-local-JAC && npm run test-api-local-JCJ && npm run test-api-local-CMR",
     "test":"start-server-and-test start http://localhost:16078 test-api-local"
->>>>>>> bec1bd2 (l06-prueba)
     
   },
   "repository": {

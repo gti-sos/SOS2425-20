@@ -10,14 +10,8 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Run JCJ tests with server
-        run: npm run test-traffic-accidents
-
-      - name: Run JAC tests with server
-        run: npm run test-accidents-with-animals
-
-      - name: Run CMR tests with server
-        run: npm run test-fines
+      - name: Run test with server
+        run: npm test
 
       - name: Deploy to Render
         uses: johnbeynon/render-deploy-action@v0.0.8
