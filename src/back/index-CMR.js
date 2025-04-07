@@ -37,6 +37,10 @@ function loadBackendCMR(app){
     app.get(`${BASE_API}/fines/loadInitialData`, (req, res) => {
         console.log("GET /fines/loadInitialData");
         db.find({}, (_err, data) => {
+            if (data.length > 0) {
+                console.log("Datos ya existentes");
+                return res.status(400).json({ message: "El array ya contiene datos" });
+            }
             db.insert(InitialTrafficData);
             console.log("Datos iniciales cargados correctamente");
             return res.status(201).json(InitialTrafficData);
