@@ -105,6 +105,21 @@ function loadBackendCMR(app){
             }
         });
     });
+
+
+    // GET específico por comunidad y año
+    app.get(`${BASE_API}/fines/:city/:year`, (req, res) => {
+        const { city, year } = req.params;
+        console.log(`GET /fines/${city}/${year}`);
+        db.findOne({ city: city, year: parseInt(year) }, (_err, data) => {
+            if (!data) {
+                console.log("No encontrado");
+                return res.status(404).json({ error: `No se encuentran datos de ${city} en ${year}` });
+            }
+            delete data._id;
+            res.status(200).json(data);
+        });
+    });
     
     
     // POST: Añadir un nueva multa 
