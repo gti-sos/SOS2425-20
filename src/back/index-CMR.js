@@ -109,7 +109,8 @@ function loadBackendCMR(app){
 
     // GET específico por comunidad y año
     app.get(`${BASE_API}/fines/:city/:year`, (req, res) => {
-        const { city, year } = req.params;
+        const city = req.params.city;
+        const year = req.params.year;
         console.log(`GET /fines/${city}/${year}`);
         db.findOne({ city: city, year: parseInt(year) }, (_err, data) => {
             if (!data) {
