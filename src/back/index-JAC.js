@@ -63,15 +63,31 @@ function loadBackendJAC(app){
         });
     });
 
-    // GET con filtros y paginación
     app.get(BASE_API, (req, res) => {
-        const { autonomous_community, province, anyo, from, to } = req.query;
+        const {
+            from,
+            to,
+            limit,
+            offset,
+            ...filters // esto captura todos los demás filtros automáticamente
+        } = req.query;
+    
         const query = {};
-
-        if (autonomous_community) query.autonomous_community = autonomous_community;
-        if (province) query.province = province;
-        if (anyo) query.anyo = parseInt(anyo);
-
+    
+        // Conversión de tipos y construcción dinámica del query
+        for (const key in filters) {
+            if (filters.hasOwnProperty(key)) {
+                // Convertir a número si corresponde
+                const value = filters[key];
+                if (!isNaN(value)) {
+                    query[key] = parseFloat(value);
+                } else {
+                    query[key] = value;
+                }
+            }
+        }
+    
+        // Manejo especial de "anyo" si hay "from" y/o "to"
         if (from && to) {
             query.anyo = { $gte: parseInt(from), $lte: parseInt(to) };
         } else if (from) {
@@ -79,15 +95,22 @@ function loadBackendJAC(app){
         } else if (to) {
             query.anyo = { $lte: parseInt(to) };
         }
-
-        let limit = parseInt(req.query.limit) || 0;
-        let offset = parseInt(req.query.offset) || 0;
-
-        db.find(query).skip(offset).limit(limit).exec((err, data) => {
+    
+        // Paginación
+        const lim = parseInt(limit) || 0;
+        const off = parseInt(offset) || 0;
+    
+        db.find(query).skip(off).limit(lim).exec((err, data) => {
+            if (err) {
+                res.status(500).send("Error interno del servidor");
+                return;
+            }
+    
             data.forEach(d => delete d._id);
             res.status(200).json(data);
         });
     });
+    
 
     // GET por comunidad
     app.get(`${BASE_API}/:community`, (req, res) => {
