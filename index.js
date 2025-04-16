@@ -4,7 +4,8 @@ import { loadBackendJAC } from "./src/back/index-JAC.js";
 import { loadBackendCMR } from "./src/back/index-CMR.js";
 import path from "path";
 
-import {handler} from "./src/front/build/handler.js"
+import {handler} from "./src/front/build/handler.js";
+import cors from "cors";
 
 
 const app = express();
@@ -14,6 +15,7 @@ const PORT = process.env.PORT || 16078;
 
 // Middleware para parsear JSON
 app.use(express.json()); //  Debe ir antes de definir las rutas
+app.use(cors());
 //app.use("/",express.static("./public"));  
 
 
