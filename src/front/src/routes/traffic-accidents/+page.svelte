@@ -106,8 +106,7 @@
     }
 
     async function searchTrafficAccidents() {
-        let url = new URL(API);
-
+        let url = new URL(API, window.location.origin);
         if (searchCommunity) url.searchParams.append("autonomous_community", searchCommunity);
         if (searchFrom) url.searchParams.append("from", searchFrom);
         if (searchTo) url.searchParams.append("to", searchTo);

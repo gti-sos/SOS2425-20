@@ -38,6 +38,11 @@
 	});
 
 	async function updateTrafficAccident() {
+		if (!fatal_accidents || !deceased || !vehicles_without_mot) {
+			resultStatus = 400;
+			return;
+		}
+
 		resultStatus = null;
 		const updatedData = {
 			autonomous_community: community,
@@ -80,9 +85,14 @@
 		Actualizar
 </Button>
 
+ {#if resultStatus !== null}
 	{#if resultStatus === 200}
-		<p> Recurso actualizado correctamente.</p>
-	{:else if resultStatus && resultStatus !== 200}
-		<p> Error al actualizar (código {resultStatus})</p>
+		<p class="text-success"><i class="bi bi-check-circle-fill"></i> Recurso actualizado correctamente.</p>
+	{:else if resultStatus === 400}
+		<p class="text-warning"><i class="bi bi-exclamation-triangle-fill"></i> Por favor, completa todos los campos.</p>
+	{:else}
+		<p class="text-danger"><i class="bi bi-x-circle-fill"></i> Error al actualizar.</p>
 	{/if}
+ {/if}
 {/if}
+
