@@ -51,7 +51,16 @@ test('create and delete traffic-accident', async ({ page }) => {
   await expect(row).toHaveCount(0);
 });
 
-//PARTE MARMOL
+//PARTE CARLOS
+
+// TEST: Navegación a fines y verificación de título
+test('get fines', async ({ page }) => {
+  await page.goto('http://localhost:16078');
+  await page.getByRole('link', { name: 'fines' }).click();
+  await expect(page).toHaveTitle(/Multas/);
+});
+
+
 // TEST: Crear y eliminar una multa
 test('create and delete fine', async ({ page }) => {
   const city = "PruebaCity";
