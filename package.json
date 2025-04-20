@@ -41,7 +41,7 @@
   "directories": {
     "test": "tests"
   },
-  "keywords": [
-    ""
-  ]
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }

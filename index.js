@@ -5,6 +5,7 @@ import { loadBackendJAC } from "./src/back/index-JAC.js";
 import { loadBackendCMR } from "./src/back/index-CMR.js";
 //v2
 import { loadBackendJCJv2 } from "./src/back/index-JCJ-v2.js";
+import { loadBackendCMRv2 } from "./src/back/index-CMR-v2.js";
 
 import path from "path";
 
@@ -31,6 +32,7 @@ loadBackendCMR(app);
 
 //v2
 loadBackendJCJv2(app);
+loadBackendCMRv2(app);
 
 
 app.use(handler); 

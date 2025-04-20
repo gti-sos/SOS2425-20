@@ -161,6 +161,36 @@ function loadBackendCMR(app){
         res.status(405).json({ error: "Método PUT no permitido" });
     });
     
+    // Actualizar los datos de una ciudad en un año específico
+    app.put(`${BASE_API}/fines/:city/:year`, (req, res) => {
+        const city = req.params.city;
+        const year = parseInt(req.params.year);
+        const updatedData = req.body;
+
+        // Validación básica: asegurar que los datos coinciden con la URL
+        if (
+            !updatedData.city ||
+            !updatedData.year ||
+            updatedData.city !== city ||
+            parseInt(updatedData.year) !== year
+        ) {
+            return res.status(400).json({ error: "El identificador del recurso en la URL debe coincidir con el cuerpo" });
+        }
+
+        db.update(
+            { city: city, year: year },
+            { $set: updatedData },
+            {},
+            (_err, numReplaced) => {
+                if (numReplaced === 0) {
+                    return res.status(404).json({ error: `No se encuentra el recurso para actualizar` });
+                }
+                res.status(200).json({ message: "Datos actualizados", data: updatedData });
+            }
+        );
+    });
+
+    
     
     // Actualizar los datos de una ciudad específica
     app.put(`${BASE_API}/fines/:city`, (req, res) => {
@@ -182,7 +212,21 @@ function loadBackendCMR(app){
         });
     });
     
-    
+    // Eliminar los datos de una ciudad en un año específico
+    app.delete(`${BASE_API}/fines/:city/:year`, (req, res) => {
+        const city = req.params.city;
+        const year = parseInt(req.params.year);
+        console.log(`New DELETE to /fines/${city}/${year}`);
+
+        db.remove({ city: city, year: year }, {}, (err, numRemoved) => {
+            if (numRemoved > 0) {
+                res.status(200).json({ message: `Datos de ${city} en ${year} eliminados` });
+            } else {
+                res.status(404).json({ error: `No se encuentran datos de ${city} en ${year}` });
+            }
+        });
+    });
+
     
     // Eliminar los datos de una ciudad específica
     app.delete(`${BASE_API}/fines/:city`, (req, res) => {

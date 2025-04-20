@@ -15,6 +15,7 @@
 
     let fines = [];
     let resultStatus = null;
+    let result = null;
     let newCity = "";
     let newYear = "";
     let newItv = "";
@@ -180,13 +181,18 @@
     </thead>
     <tbody>
         <tr>
-            <td><input bind:value={newCity} placeholder="Ciudad" /></td>
-            <td><input type="number" bind:value={newYear} placeholder="Año" /></td>
-            <td><input type="number" bind:value={newItv} placeholder="Multas ITV" /></td>
-            <td><input type="number" step="0.01" bind:value={newAlcoholRate} placeholder="Tasa Alcohol" /></td>
-            <td><input type="number" bind:value={newFixedRadar} placeholder="Radar Fijo" /></td>
-            <td><Button color="success" on:click={createFine}><i class="bi bi-plus-circle-fill"></i> Crear</Button></td>
-        </tr>
+            <td><input bind:value={newCity} placeholder="Ciudad" data-testid="input-city" /></td>
+            <td><input type="number" bind:value={newYear} placeholder="Año" data-testid="input-year" /></td>
+            <td><input type="number" bind:value={newItv} placeholder="Multas ITV" data-testid="input-itv" /></td>
+            <td><input type="number" bind:value={newAlcoholRate} placeholder="Multas Alcohol" data-testid="input-alcohol" /></td>
+            <td><input type="number" bind:value={newFixedRadar} placeholder="Multas Radar" data-testid="input-radar" /></td>
+            <td>
+              <Button color="success" on:click={createFine}>
+                <i class="bi bi-plus-circle-fill"></i> Crear
+              </Button>
+            </td>
+          </tr>
+          
         {#each fines as fine}
             <tr>
                 <td>{fine.city}</td>

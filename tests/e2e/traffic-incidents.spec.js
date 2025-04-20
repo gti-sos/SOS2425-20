@@ -51,3 +51,40 @@ test('create and delete traffic-accident', async ({ page }) => {
   await expect(row).toHaveCount(0);
 });
 
+//PARTE MARMOL
+// TEST: Crear y eliminar una multa
+test('create and delete fine', async ({ page }) => {
+  const city = "PruebaCity";
+  const year = "2099";
+  const itv = "123";
+  const alcoholRate = "1.5";
+  const fixedRadar = "321";
+
+  await page.goto('http://localhost:16078');
+
+  // Ir a la vista de multas si fuera necesario
+  await page.getByRole('link', { name: 'fines' }).click();
+
+  // Rellenar formulario usando los identificadores
+  await page.locator('[data-testid="input-city"]').fill(city);
+  await page.locator('[data-testid="input-year"]').fill(year);
+  await page.locator('[data-testid="input-itv"]').fill(itv);
+  await page.locator('[data-testid="input-alcohol"]').fill(alcoholRate);
+  await page.locator('[data-testid="input-radar"]').fill(fixedRadar);
+
+  // Pulsar "Crear"
+  await page.getByRole('button', { name: 'Crear' }).click();
+
+  // Buscar la fila creada
+  const row = page.locator('tr', { hasText: city });
+
+  // Esperar a que esté visible y contenga el año
+  await expect(row).toContainText(year, { timeout: 10000 });
+
+  // Pulsar el botón de eliminar
+  const deleteBtn = row.getByRole('button', { name: 'Eliminar' });
+  await deleteBtn.click();
+
+  // Verificar que la fila ha desaparecido
+  await expect(row).toHaveCount(0);
+});
