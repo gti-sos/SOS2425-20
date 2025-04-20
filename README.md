@@ -11,5 +11,6 @@ Our project focuses on analyzing and visualizing traffic-related incidents in Sp
 -  **APIs**:
   - [Traffic Accidents API-V1](https://sos2425-20.onrender.com/api/v1/traffic-accidents/docs) (developed by José Calle Jiménez)
   - [Traffic Accidents API-V2](https://sos2425-20.onrender.com/api/v2/traffic-accidents/docs) (developed by José Calle Jiménez)
-  - [Annual Fines API](https://sos2425-20.onrender.com/api/v1/fines/docs) (developed by Carlos Marmol Ramírez)
+  - [Annual Fines API-V1](https://sos2425-20.onrender.com/api/v1/fines/docs) (developed by Carlos Marmol Ramírez)
+  - [Annual Fines API-V2](https://documenter.getpostman.com/view/42564550/2sB2iwEEAK) (developed by Carlos Marmol Ramírez)
   - [Animal Accidents API](https://sos2425-20.onrender.com/api/v1/accidents-with-animals/docs) (developed by Javier Andrade Castro)
