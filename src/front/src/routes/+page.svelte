@@ -1,3 +1,6 @@
+<svelte:head>
+	<title>Incidentes de Tráfico</title>
+</svelte:head>
 <h1>Bienvenido al proyecto SOS2425-20</h1>
 
 <h2>Aplicaciones del equipo</h2>

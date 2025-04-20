@@ -1,3 +1,7 @@
+<svelte:head>
+	<title>Accidentes de Tráfico</title>
+</svelte:head>
+
 <script>
     // @ts-nocheck
     import { dev } from "$app/environment";
@@ -177,13 +181,13 @@
     </thead>
     <tbody>
         <tr>
-            <td><input bind:value={newCommunity} placeholder="Comunidad" /></td>
-            <td><input type="number" bind:value={newYear} placeholder="Año" /></td>
-            <td><input type="number" bind:value={newFatalAccidents} placeholder="Acc. Mortales" /></td>
-            <td><input type="number" bind:value={newDeceased} placeholder="Fallecidos" /></td>
-            <td><input type="number" bind:value={newVehiclesWithoutMot} placeholder="Sin ITV" /></td>
+            <td><input bind:value={newCommunity} placeholder="Comunidad" data-testid="input-community" /></td>
+            <td><input type="number" bind:value={newYear} placeholder="Año" data-testid="input-year" /></td>
+            <td><input type="number" bind:value={newFatalAccidents} placeholder="Acc. Mortales" data-testid="input-fatal" /></td>
+            <td><input type="number" bind:value={newDeceased} placeholder="Fallecidos" data-testid="input-deceased" /></td>
+            <td><input type="number" bind:value={newVehiclesWithoutMot} placeholder="Sin ITV" data-testid="input-noitv" /></td>
             <td><Button color="success" on:click={createTrafficAccident}><i class="bi bi-plus-circle-fill"></i> Crear</Button></td>
-        </tr>
+        </tr>        
         {#each trafficAccidents as ta}
             <tr>
                 <td>{ta.autonomous_community}</td>
