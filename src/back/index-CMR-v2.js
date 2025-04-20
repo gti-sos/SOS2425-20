@@ -30,7 +30,7 @@ function loadBackendCMRv2(app){
     // Redirección a documentación
     app.get(BASE_API + "/fines/docs", (req, res) => {
         console.log("GET /fines/docs");
-        res.redirect("https://documenter.getpostman.com/view/42564550/2sB2cSi4pF#f75f8fcc-06f9-49f4-a869-e872b253cb7f");
+        res.redirect("https://documenter.getpostman.com/view/42564550/2sB2iwEEAK");
     });
 
     // Load Initial Data
