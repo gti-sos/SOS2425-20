@@ -1,3 +1,6 @@
+<svelte:head>
+	<title>Editar accidente con animales</title>
+</svelte:head>
 <script>
 	// @ts-nocheck
 	import { page } from '$app/stores';
@@ -35,25 +38,29 @@
 			const res = await fetch(`${API}/${id}`);
 			if (res.status === 200) {
 				const data = await res.json();
-				n_deceased = data.n_deceased;
-				n_injures_hospitalized = data.n_injures_hospitalized;
-				n_injured_no_hospitalized = data.n_injured_no_hospitalized;
-				accident_date = data.accident_date;
-				accident_hour = data.accident_hour;
-				anyo = data.anyo;
-				autonomous_community = data.autonomous_community;
-				province = data.province;
-				ine_municipality = data.ine_municipality;
-				road = data.road;
-				km_road = data.km_road;
-				type_of_road = data.type_of_road;
-				animal_group = data.animal_group;
-				other_animal_group = data.other_animal_group;
+				// Asignamos los valores de la respuesta a las variables locales
+				({ 
+					n_deceased, 
+					n_injures_hospitalized, 
+					n_injured_no_hospitalized, 
+					accident_date, 
+					accident_hour, 
+					anyo, 
+					autonomous_community, 
+					province, 
+					ine_municipality, 
+					road, 
+					km_road, 
+					type_of_road, 
+					animal_group, 
+					other_animal_group 
+				} = data);
 			} else {
 				resultStatus = res.status;
 			}
 		} catch (error) {
-			console.log('Error al cargar datos:', error);
+			console.error('Error al cargar datos:', error);
+			resultStatus = 500; // Código de error genérico
 		}
 	});
 
@@ -85,8 +92,13 @@
 				body: JSON.stringify(updatedAccident)
 			});
 			resultStatus = res.status;
+			if (res.status === 200) {
+				// Mensaje de éxito
+				resultStatus = 200;
+			}
 		} catch (error) {
-			console.log('Error al actualizar:', error);
+			console.error('Error al actualizar:', error);
+			resultStatus = 500; // Error de servidor
 		}
 	}
 </script>
@@ -139,6 +151,9 @@
 		<label for="other_animal_group">Otro grupo de animales:</label>
 		<input id="other_animal_group" type="number" bind:value={other_animal_group} />
 
+		<label for="anyo">Año:</label>
+		<input id="anyo" type="number" bind:value={anyo} />
+
 		<Button type="submit" color="primary">Actualizar</Button>
 	</form>
 
@@ -147,8 +162,10 @@
 			<p class="text-success">Accidente actualizado correctamente.</p>
 		{:else if resultStatus === 400}
 			<p class="text-warning">Por favor, completa todos los campos correctamente.</p>
+		{:else if resultStatus === 500}
+			<p class="text-danger">Error del servidor al intentar actualizar el accidente.</p>
 		{:else}
-			<p class="text-danger">Error al actualizar.</p>
+			<p class="text-danger">Error inesperado.</p>
 		{/if}
 	{/if}
 {/if}

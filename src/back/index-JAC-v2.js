@@ -1,4 +1,4 @@
-const BASE_API = "/api/v1/accidents-with-animals";
+const BASE_API = "/api/v2/accidents-with-animals";
 import dataStore from "nedb";
 
 let db = new dataStore();
@@ -42,12 +42,12 @@ if (totalGroups > 0) {
 }
 */
 
-function loadBackendJAC(app){
+function loadBackendJACv2(app){
 
     // Redirección a documentación
     app.get(BASE_API + "/docs", (req, res) => {
         console.log("GET /accidents-with-animals/docs");
-        res.redirect("https://documenter.getpostman.com/view/42547496/2sB2cUANTf");
+        res.redirect("https://documenter.getpostman.com/view/42547496/2sB2iwEEEj");
     });
 
     app.get(`${BASE_API}/loadInitialData`, (req, res) => {
@@ -280,4 +280,4 @@ function loadBackendJAC(app){
     
 }
 
-export { loadBackendJAC };
+export { loadBackendJACv2 };

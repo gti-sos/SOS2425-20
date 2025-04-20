@@ -6,6 +6,7 @@
 <h2>Aplicaciones del equipo</h2>
 <ul>
 	<li><a href="/traffic-accidents">Análisis de accidentes de tráfico</a> (José Calle Jiménez)</li>
+	<li><a href="/accidents-with-animals">Análisis de accidentes con animales</a> (Javier Andrade Castro)</li>
 	<li><a href="/fines">Análisis de multas</a> (Carlos Mármol Ramírez)</li>
 	<!-- Añadir otros frontends aquí si existen -->
 </ul>
