@@ -88,3 +88,66 @@ test('create and delete fine', async ({ page }) => {
   // Verificar que la fila ha desaparecido
   await expect(row).toHaveCount(0);
 });
+
+// TEST: Navegación a traffic-accidents y verificación de título
+test('get accidents-with-animals', async ({ page }) => {
+  await page.goto('http://localhost:16078');
+  await page.getByRole('link', { name: 'accidents-with-animals' }).click();
+  await expect(page).toHaveTitle(/Accidentes con animales/);
+});
+
+
+// TEST: Crear y eliminar accidente con animales
+test('create and delete animal accident', async ({ page }) => {
+  const accidentId = "999999999999";
+  const community = "prueba";
+  const province = "testland";
+  const accidentDate = "01/01/2099";
+  const accidentHour = "12:00";
+  const ineMunicipality = "1234";
+  const road = "T-999";
+  const km = "1";
+  const typeOfRoad = "2";
+  const animalGroup = "10";
+  const otherAnimalGroup = "1";
+  const deceased = "1";
+  const hospInjured = "2";
+  const nonHospInjured = "3";
+  const anyo = "2099"
+
+  await page.goto('http://localhost:16078');
+  await page.getByRole('link', { name: 'accidents-with-animals' }).click();
+
+  // Rellenar formulario con data-testid
+  await page.locator('[data-testid="input-id"]').fill(accidentId);
+  await page.locator('[data-testid="input-community"]').fill(community);
+  await page.locator('[data-testid="input-province"]').fill(province);
+  await page.locator('[data-testid="input-date"]').fill(accidentDate);
+  await page.locator('[data-testid="input-hour"]').fill(accidentHour);
+  await page.locator('[data-testid="input-ine"]').fill(ineMunicipality);
+  await page.locator('[data-testid="input-road"]').fill(road);
+  await page.locator('[data-testid="input-km"]').fill(km);
+  await page.locator('[data-testid="input-type"]').fill(typeOfRoad);
+  await page.locator('[data-testid="input-animal"]').fill(animalGroup);
+  await page.locator('[data-testid="input-other-animal"]').fill(otherAnimalGroup);
+  await page.locator('[data-testid="input-deceased"]').fill(deceased);
+  await page.locator('[data-testid="input-hosp"]').fill(hospInjured);
+  await page.locator('[data-testid="input-nonhosp"]').fill(nonHospInjured);
+  await page.locator('[data-testid="input-anyo"]').fill(anyo);
+
+  // Pulsar botón Crear
+  await page.getByTestId("btn-create").click();
+
+  // Esperar a que la fila con el ID esté visible
+  const row = page.locator(`tr:has-text("${accidentId}")`);
+  await expect(row).toBeVisible({ timeout: 10000 });
+
+  // Eliminar el recurso
+  const deleteBtn = row.getByRole('button', { name: 'Eliminar' });
+  await deleteBtn.click();
+
+  // Verificar que ha desaparecido
+  await expect(row).toHaveCount(0);
+});
+
+
