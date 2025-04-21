@@ -124,9 +124,6 @@
 		<label for="accident_hour">Hora del accidente:</label>
 		<input id="accident_hour" type="text" bind:value={accident_hour} />
 
-		<label for="anyo">Año:</label>
-		<input id="anyo" type="number" bind:value={anyo} />
-
 		<label for="autonomous_community">Comunidad autónoma:</label>
 		<input id="autonomous_community" type="text" bind:value={autonomous_community} />
 

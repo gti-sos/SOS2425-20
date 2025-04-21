@@ -8,7 +8,7 @@
     import { Button, Table } from "@sveltestrap/sveltestrap";
     
     let DEVEL_HOST = "http://localhost:16078";
-    let API = "/api/v1/accidents-with-animals"; 
+    let API = "/api/v1/accidents-with-animals";
     
     if (dev) API = DEVEL_HOST + API;
     
@@ -46,7 +46,6 @@
     let searchNDeceased = "";
     let searchNInjuresHospitalized = "";
     let searchNInjuredNoHospitalized = "";
-    let searchAnyo = "";
     
     let firstLoad = true;
     
@@ -161,7 +160,6 @@
         if (searchNDeceased) url.searchParams.append("n_deceased", searchNDeceased);
         if (searchNInjuresHospitalized) url.searchParams.append("n_injures_hospitalized", searchNInjuresHospitalized);
         if (searchNInjuredNoHospitalized) url.searchParams.append("n_injured_no_hospitalized", searchNInjuredNoHospitalized);
-        if (searchAnyo) url.searchAnyo.append("anyo", searchAnyo);
     
         resultStatus = null;
         try {
@@ -212,7 +210,6 @@
     <input class="form-control mb-1" bind:value={searchNDeceased} placeholder="Fallecidos" />
     <input class="form-control mb-1" bind:value={searchNInjuresHospitalized} placeholder="Heridos hospitalizados" />
     <input class="form-control mb-1" bind:value={searchNInjuredNoHospitalized} placeholder="Heridos no hospitalizados" />
-    <input class="form-control mb-1" bind:value={searchAnyo} placeholder="Anyo" />
     
     <Button color="primary" on:click={searchAccidents}>
         <i class="bi bi-search"></i> Buscar
@@ -239,7 +236,7 @@
             <th>Fallecidos</th>
             <th>Heridos hospitalizados</th>
             <th>Heridos no hospitalizados</th>
-            <th>Anyo</th>
+            <th>Año</th>
         </tr>
     </thead>
     <tbody>
@@ -258,7 +255,7 @@
             <td><input data-testid="input-deceased" bind:value={newNDeceased} placeholder="Fallecidos" type="number" /></td>
             <td><input data-testid="input-hosp" bind:value={newNInjuresHospitalized} placeholder="Heridos hospitalizados" type="number" /></td>
             <td><input data-testid="input-nonhosp" bind:value={newNInjuredNoHospitalized} placeholder="Heridos no hospitalizados" type="number" /></td>
-            <td><input data-testid="input-anyo" bind:value={newAnyo} placeholder="Anyo" type="number" /></td>
+            <td><input data-testid="input-anyo" bind:value={newAnyo} placeholder="Año" type="number" /></td>
             <td>
                 <Button data-testid="btn-create" color="success" on:click={createAccident}>
                     <i class="bi bi-plus-circle-fill"></i> Crear
