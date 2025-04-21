@@ -143,13 +143,19 @@
         {:else if resultStatus === 400}
             <i class="bi bi-exclamation-triangle-fill text-warning"></i> Faltan datos. Por favor, revisa todos los campos.
         {:else if resultStatus === 409}
-            <i class="bi bi-x-circle-fill text-danger"></i> Ya existe una entrada con esa ciudad y año.
+            <i class="bi bi-x-circle-fill text-danger"></i> Ya existe una entrada con esa comunidad y año.
         {:else if resultStatus === 404}
             <i class="bi bi-x-circle-fill text-danger"></i> Recurso no encontrado.
         {:else}
             <i class="bi bi-x-circle-fill text-danger"></i> Error inesperado (código {resultStatus}).
         {/if}
     </p>
+{/if}
+
+{#if resultStatus === 200 && fines.length === 0}
+    <div class="alert alert-warning mt-3" role="alert">
+        <i class="bi bi-exclamation-circle-fill"></i> No se han encontrado resultados para esa búsqueda.
+    </div>
 {/if}
 
 <h4><i class="bi bi-search"></i> Buscar registros</h4>

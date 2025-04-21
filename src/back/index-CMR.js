@@ -99,14 +99,12 @@ function loadBackendCMR(app){
         const city = req.params.city;
         console.log(`New GET to /fines/${city}`);
         db.find({ city: city }, (err, data) => {
-            if (data.length > 0) {
-                res.json(data.map(entry => {
-                    delete entry._id;
-                    return entry;
-                }));
-            } else {
-                res.status(404).json({ error: `No se encuentran datos de ${city}` });
+            if (data.length === 0) {
+                console.log("No encontrado");
+                return res.status(404).json({ error: `No se encuentran datos de ${city}` });
             }
+            data.forEach(d => delete d._id);
+            res.status(200).json(data);
         });
     });
 
