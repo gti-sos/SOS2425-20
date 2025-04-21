@@ -133,7 +133,6 @@
 </script>
 
 <h2>Listado de Accidentes de Tráfico</h2>
-
 {#if resultStatus !== null}
     <p>
         {#if resultStatus === 201}
@@ -151,6 +150,13 @@
         {/if}
     </p>
 {/if}
+
+{#if resultStatus === 200 && trafficAccidents.length === 0}
+    <div class="alert alert-warning mt-3" role="alert">
+        <i class="bi bi-exclamation-circle-fill"></i> No se han encontrado resultados para esa búsqueda.
+    </div>
+{/if}
+
 
 <h4><i class="bi bi-search"></i> Buscar registros</h4>
 <div class="mb-4">
