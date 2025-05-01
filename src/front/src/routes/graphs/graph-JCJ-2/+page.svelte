@@ -2,6 +2,11 @@
     import { onMount, tick } from "svelte";
     import Chart from 'chart.js/auto';
   
+    import { dev } from "$app/environment";
+
+    let DEVEL_HOST = "http://localhost:16078";
+    let API = "/api/v1/traffic-accidents";
+    if (dev) API = DEVEL_HOST + API;
     // @ts-ignore
     let data = [];
     // @ts-ignore
@@ -24,28 +29,28 @@
 
   
     async function getData() {
-      try {
-        const res = await fetch("http://localhost:16078/api/v1/traffic-accidents");
-        let result = await res.json();
-  
-        if (result.length === 0) {
-          const init = await fetch("http://localhost:16078/api/v1/traffic-accidents/loadInitialData");
-          if (init.ok) {
-            result = await init.json();
-            console.log(" Datos iniciales cargados automáticamente.");
-          } else {
-            console.error(" Error al cargar datos iniciales.");
-          }
+        try {
+            const res = await fetch(API);
+            let result = await res.json();
+
+            if (result.length === 0) {
+            const init = await fetch(API + "/loadInitialData");
+            if (init.ok) {
+                result = await init.json();
+                console.log(" Datos iniciales cargados automáticamente.");
+            } else {
+                console.error(" Error al cargar datos iniciales.");
+            }
+            }
+
+            data = result;
+            // @ts-ignore
+            communities = [...new Set(data.map(d => d.autonomous_community))].sort();
+            // @ts-ignore
+            years = [...new Set(data.map(d => d.year))].sort((a, b) => a - b);
+        } catch (error) {
+            console.error(" Error al obtener datos:", error);
         }
-  
-        data = result;
-        // @ts-ignore
-        communities = [...new Set(data.map(d => d.autonomous_community))].sort();
-        // @ts-ignore
-        years = [...new Set(data.map(d => d.year))].sort((a, b) => a - b);
-      } catch (error) {
-        console.error(" Error al obtener datos:", error);
-      }
     }
   
     async function drawChart() {
