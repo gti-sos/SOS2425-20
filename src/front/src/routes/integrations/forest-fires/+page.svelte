@@ -14,7 +14,7 @@
         return str
             .toLowerCase()
             .normalize("NFD")
-            .replace(/\p{Diacritic}/gu, "")
+            .replace(/\p{Diacritic}/gu, "") 
             .replace(/\s+/g, " ")
             .trim();
     }

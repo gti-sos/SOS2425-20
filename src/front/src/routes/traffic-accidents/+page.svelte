@@ -132,6 +132,15 @@
     onMount(getTrafficAccidents);
 </script>
 
+<div class="d-flex justify-content-start my-3">
+    <Button color="info" class="me-2" on:click={() => window.location.href = '/integrations/annual-evolutions'}> 
+         Integración con Potencia Instalada
+    </Button>
+    <Button color="info" on:click={() => window.location.href = '/integrations/forest-fires'}>
+         Integración con Incendios Forestales
+    </Button>
+</div>
+
 <h2>Listado de Accidentes de Tráfico</h2>
 {#if resultStatus !== null}
     <p>
@@ -217,3 +226,4 @@
 <Button color="danger" class="mt-3" on:click={deleteAllTrafficAccidents}>
     <i class="bi bi-trash-fill"></i> Eliminar todos los recursos
 </Button>
+
