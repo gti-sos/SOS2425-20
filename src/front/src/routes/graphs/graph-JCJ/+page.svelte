@@ -41,6 +41,7 @@
             trafficAccidents = data;
 
             // Sacamos las comunidades sin repetir
+            // @ts-ignore
             trafficCommunities = [...new Set(trafficAccidents.map(d => d.autonomous_community))].sort();
 
             drawChart();
