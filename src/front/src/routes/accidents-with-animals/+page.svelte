@@ -41,6 +41,8 @@
     let searchRoad = "";
     let searchKmRoad = "";
     let searchTypeOfRoad = "";
+    let searchFrom = "";
+    let searchTo = "";
     let searchAnimalGroup = "";
     let searchOtherAnimalGroup = "";
     let searchNDeceased = "";
@@ -156,6 +158,8 @@
         if (searchKmRoad) url.searchParams.append("km_road", searchKmRoad);
         if (searchTypeOfRoad) url.searchParams.append("type_of_road", searchTypeOfRoad);
         if (searchAnimalGroup) url.searchParams.append("animal_group", searchAnimalGroup);
+        if (searchFrom) url.searchParams.append("from", searchFrom);
+        if (searchTo) url.searchParams.append("to", searchTo);
         if (searchOtherAnimalGroup) url.searchParams.append("other_animal_group", searchOtherAnimalGroup);
         if (searchNDeceased) url.searchParams.append("n_deceased", searchNDeceased);
         if (searchNInjuresHospitalized) url.searchParams.append("n_injures_hospitalized", searchNInjuresHospitalized);
@@ -175,7 +179,7 @@
     onMount(getAccidents);
 </script>
 
-<h2>Listado de Accidentes con Animales</h2>
+<h2>Listado de Accidentes de Tráfico</h2>
 
 {#if resultStatus !== null}
     <p>
@@ -186,7 +190,7 @@
         {:else if resultStatus === 400}
             <i class="bi bi-exclamation-triangle-fill text-warning"></i> Faltan datos. Por favor, revisa todos los campos.
         {:else if resultStatus === 409}
-            <i class="bi bi-x-circle-fill text-danger"></i> Ya existe un dato con ese ID.
+            <i class="bi bi-x-circle-fill text-danger"></i> Ya existe una entrada con esa comunidad y año.
         {:else if resultStatus === 404}
             <i class="bi bi-x-circle-fill text-danger"></i> Recurso no encontrado.
         {:else}
@@ -194,6 +198,13 @@
         {/if}
     </p>
 {/if}
+
+{#if resultStatus === 200 && accidents.length === 0}
+    <div class="alert alert-warning mt-3" role="alert">
+        <i class="bi bi-exclamation-circle-fill"></i> No se han encontrado resultados para esa búsqueda.
+    </div>
+{/if}
+
 
 <h4><i class="bi bi-search"></i> Buscar registros por varios campos</h4>
 <div class="mb-4">
@@ -206,6 +217,8 @@
     <input class="form-control mb-1" bind:value={searchKmRoad} placeholder="Km" />
     <input class="form-control mb-1" bind:value={searchTypeOfRoad} placeholder="Tipo carretera" />
     <input class="form-control mb-1" bind:value={searchAnimalGroup} placeholder="Grupo animal" />
+    <input class="form-control mb-1" bind:value={searchFrom} placeholder="Desde" />
+    <input class="form-control mb-1" bind:value={searchTo} placeholder="Hasta" />
     <input class="form-control mb-1" bind:value={searchOtherAnimalGroup} placeholder="Otro grupo" />
     <input class="form-control mb-1" bind:value={searchNDeceased} placeholder="Fallecidos" />
     <input class="form-control mb-1" bind:value={searchNInjuresHospitalized} placeholder="Heridos hospitalizados" />

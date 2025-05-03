@@ -86,8 +86,7 @@ function loadBackendJAC(app){
                 }
             }
         }
-    
-        // Manejo especial de "anyo" si hay "from" y/o "to"
+
         if (from && to) {
             query.anyo = { $gte: parseInt(from), $lte: parseInt(to) };
         } else if (from) {
