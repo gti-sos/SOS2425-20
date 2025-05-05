@@ -4,3 +4,4 @@
 <a href="/accidents-with-animals">accidents-with-animals</a>
 <a href="/fines">fines</a>
 <a href="/integrations">integrations</a>
+<a href="/analytics">analytics</a>

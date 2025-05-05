@@ -17,7 +17,8 @@
   const apisDeSOS = [
     { path: 'annual-evolutions', label: 'Evoluciones Anuales' },
     { path: 'forest-fires',      label: 'Incendios Forestales' },
-    { path: 'dana-erte-stats',    label: 'DANA ERTE Stats' }
+    { path: 'dana-erte-stats',    label: 'DANA ERTE Stats' },
+    { path: 'water-supply-improvements',    label: 'Mejoras Suministro De Agua' }
   ];
 </script>
 
