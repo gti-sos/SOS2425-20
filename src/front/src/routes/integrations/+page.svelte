@@ -20,6 +20,12 @@
     { path: 'dana-erte-stats',    label: 'DANA ERTE Stats' },
     { path: 'water-supply-improvements',    label: 'Mejoras Suministro De Agua' }
   ];
+
+  const apisJavi = [
+    { path: 'IMDb', label: 'Rating peliculas'},
+    { path: 'football-leagues', label: 'Ligas populares'},
+    { path: 'covid-19', label: 'Covid-19 por paises'}
+  ]
 </script>
 
 <div class="container my-5">
@@ -35,6 +41,19 @@
       </div>
     {/each}
   </div>
+
+  <h2 class="h5 mb-3">Widget Javi (APIs externas)</h2>
+  <div class="row mb-5">
+    {#each apisJavi as integ}
+      <div class="col-6 col-md-4 mb-3">
+        <a href={`/integrations/${integ.path}`} class="btn btn-primary w-100">
+          {integ.label}
+        </a>
+      </div>
+    {/each}
+  </div>
+
+  
 
   <h2 class="h5 mb-3">Integraciones/Widget José (APIs de SOS)</h2>
   <div class="row">

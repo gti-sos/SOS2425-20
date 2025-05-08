@@ -39,6 +39,7 @@
           scales: {
             y: {
               ticks: {
+                // @ts-ignore
                 callback: (value) => {
                   const v = Number(value);
                   if (v >= 1e9) return (v / 1e9).toFixed(1) + 'B';
