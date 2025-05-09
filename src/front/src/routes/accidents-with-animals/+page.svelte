@@ -179,6 +179,13 @@
     onMount(getAccidents);
 </script>
 
+<div class="d-flex justify-content-start my-3">
+    <Button color="info" class="me-2" on:click={() => window.location.href = '/graphs/graph-JAC'}> 
+        MI Api con todos los recursos
+    </Button>
+</div>
+
+
 <h2>Listado de Accidentes de Tráfico</h2>
 
 {#if resultStatus !== null}
