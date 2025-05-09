@@ -28,7 +28,9 @@
   ]
 
   const integracionesJavi = [
-    { path: 'public-transit', label: 'public-transit'},
+    { path: 'accidentsanimals-fpbasic', label: 'accidentsanimals-fpbasic'},
+    { path: 'accidentsanimals-ticket', label: 'accidentsanimals-ticket'},
+    { path: 'accidentsanimals-autonomy', label: 'accidentsanimals-autonomy'}
   ]
 </script>
 
