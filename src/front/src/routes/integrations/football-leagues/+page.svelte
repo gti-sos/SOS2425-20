@@ -1,9 +1,7 @@
 <script>
   import { onMount, onDestroy } from 'svelte';
-  import Chart from 'chart.js/auto';
+  import ApexCharts from 'apexcharts';
 
-  // @ts-ignore
-  let canvas;
   // @ts-ignore
   let chart;
 
@@ -33,53 +31,48 @@
         const leagues = leaguesData.map(league => league.localizedName); // Nombres de las ligas
         const popularity = leaguesData.map(league => league.id); // Usamos el ID como la "popularidad"
 
-        // Crear gráfico de barras horizontales
-        // @ts-ignore
-        chart = new Chart(canvas.getContext('2d'), {
-          type: 'bar', // Tipo de gráfico de barras horizontales
-          data: {
-            labels: leagues, // Las ligas como etiquetas
-            datasets: [
-              {
-                label: 'Popularidad de Ligas de Fútbol',
-                data: popularity, // Los valores de popularidad (usamos los IDs para simular la popularidad)
-                backgroundColor: '#36A2EB', // Color de las barras
-                borderColor: '#007bff', // Color del borde de las barras
-                borderWidth: 1,
-              },
-            ],
-          },
-          options: {
-            maintainAspectRatio: false,
-            responsive: true,
-            indexAxis: 'y', // Esta opción pone las barras en horizontal
-            plugins: {
-              tooltip: {
-                callbacks: {
-                  label: ({ raw }) => `${raw}`, // Muestra el ID como popularidad (puedes modificar esto)
-                },
-              },
-              title: {
-                display: true,
-                text: 'Popularidad de Ligas de Fútbol',
-              },
-            },
-            scales: {
-              x: {
-                title: {
-                  display: true,
-                  text: 'Popularidad (ID)',
-                },
-              },
-              y: {
-                title: {
-                  display: true,
-                  text: 'Ligas',
-                },
-              },
+        // Crear gráfico de barras horizontales con ApexCharts
+        const options = {
+          chart: {
+            type: 'bar',
+            height: '500',
+            toolbar: {
+              show: false,
             },
           },
-        });
+          plotOptions: {
+            bar: {
+              horizontal: true, // Este es el tipo de barras horizontales
+            },
+          },
+          dataLabels: {
+            enabled: false, // Desactivar etiquetas de datos en las barras
+          },
+          series: [
+            {
+              name: 'Popularidad de Ligas de Fútbol',
+              data: popularity, // Los valores de popularidad (usamos los IDs para simular la popularidad)
+            },
+          ],
+          xaxis: {
+            categories: leagues, // Las ligas como categorías
+            title: {
+              text: 'Popularidad (ID)', // Título del eje X
+            },
+          },
+          yaxis: {
+            title: {
+              text: 'Ligas', // Título del eje Y
+            },
+          },
+          title: {
+            text: 'Popularidad de Ligas de Fútbol',
+            align: 'center',
+          },
+        };
+
+        chart = new ApexCharts(document.querySelector('#chart'), options);
+        chart.render();
       } else {
         console.error('La respuesta de la API no contiene la propiedad "popular" o no es un array', data);
       }
@@ -101,14 +94,9 @@
     height: 500px;
     margin: 2rem auto;
   }
-
-  canvas {
-    width: 100%;
-    height: 100%;
-  }
 </style>
 
 <div class="chart-container">
   <h2>Popularidad de Ligas de Fútbol</h2>
-  <canvas bind:this={canvas}></canvas>
+  <div id="chart"></div>
 </div>
