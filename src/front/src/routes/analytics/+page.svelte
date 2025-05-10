@@ -63,14 +63,14 @@
     // @ts-ignore
     const data = google.visualization.arrayToDataTable([
       ['Categoría', 'Total'],
-      ['Tráfico' , totalAccidents],
-      ['Multas'  , totalFines],
-      ['Animales', totalAnimal]
+      ['Accidentes Tráfico' , totalAccidents],
+      ['Multas Itv'  , totalFines],
+      ['Accidentes Animales', totalAnimal]
     ]);
 
     // Opciones de gráfico: escala logarítmica para que se vean bien
     const options = {
-      title:     'Comparativa 2023 (ITV vs Tráfico vs Animales)',
+      title:     'Comparativa 2023 (Tráfico vs Itv vs Animales)',
       chartArea: { width: '65%' },
       hAxis: {
         title:    'Total de Incidencias',
