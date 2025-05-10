@@ -1,43 +1,67 @@
 <script>
   import { onMount } from 'svelte';
 
+  let chart;
+
   onMount(async () => {
-    // Cargar Google Charts
+    // Cargar ECharts dinámicamente
     await new Promise((resolve) => {
       const script = document.createElement('script');
-      script.src = 'https://www.gstatic.com/charts/loader.js';
+      script.src = 'https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js';
       script.onload = resolve;
       document.head.appendChild(script);
     });
 
-    // Cargar el paquete corechart
     // @ts-ignore
-    google.charts.load('current', { packages: ['corechart'] });
-    // @ts-ignore
-    google.charts.setOnLoadCallback(drawChart);
+    const echarts = window.echarts;
 
     // @ts-ignore
     function normalize(str) {
       return str
         .toLowerCase()
-        .normalize("NFD")               // Elimina acentos
-        .replace(/[\u0300-\u036f]/g, "") // Elimina marcas diacríticas
-        .replace(/\s+/g, '')             // Elimina espacios
-        .replace(/-/g, '');              // Elimina guiones
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/\s+/g, '')
+        .replace(/-/g, '');
+    }
+
+    async function getData() {
+      const API = "https://sos2425-20.onrender.com/api/v1/accidents-with-animals";
+      // @ts-ignore
+      let data = [];
+
+      try {
+        const res = await fetch(API);
+        // @ts-ignore
+        let result = await res.json();
+
+        if (result.length === 0) {
+          const init = await fetch(API + "/loadInitialData");
+          if (init.ok) {
+            // @ts-ignore
+            result = await init.json();
+          }
+        }
+
+        data = result;
+        return data;
+      } catch (error) {
+        console.error("Error al obtener datos:", error);
+      }
+
+      return data;
     }
 
     async function drawChart() {
-      const accRes = await fetch("https://sos2425-20.onrender.com/api/v1/accidents-with-animals");
+      const accRes = await getData();
       const autonomyRes = await fetch("https://sos2425-11.onrender.com/api/v1/autonomy-dependence-applications");
-
-      const accidents = await accRes.json();
+      // @ts-ignore
       const autonomy = await autonomyRes.json();
 
-      // Filtrar por año 2023
+      // Filtrar por 2023
       // @ts-ignore
-      const acc2023 = accidents.filter(d => d.anyo === 2023);
+      const acc2023 = accRes.filter(d => d.anyo === 2023);
 
-      // Agrupar accidentes por comunidad
       // @ts-ignore
       const accidentsByAutonomy = acc2023.reduce((acc, d) => {
         const community = d.autonomous_community;
@@ -46,7 +70,6 @@
         return acc;
       }, {});
 
-      // Agrupar población por comunidad
       // @ts-ignore
       const populationByPlace = autonomy.reduce((acc, d) => {
         const place = d.place;
@@ -55,56 +78,90 @@
         return acc;
       }, {});
 
-      // Preparar datos para Google Charts
-      const chartData = [['Comunidad Autónoma', 'Accidentes', 'Población']];
+      const communities = [];
+      const accidents = [];
+      const populations = [];
+
       for (const community in accidentsByAutonomy) {
         const normalizedCommunity = normalize(community);
         const populationEntry = Object.entries(populationByPlace).find(
+          // @ts-ignore
           ([place]) => normalize(place) === normalizedCommunity
         );
         const population = populationEntry ? populationEntry[1] : 0;
 
-        chartData.push([
-          community,
-          accidentsByAutonomy[community],
-          population
-        ]);
+        communities.push(community);
+        accidents.push(accidentsByAutonomy[community]);
+        populations.push(population);
       }
 
-      // Crear el gráfico
       // @ts-ignore
-      const data = google.visualization.arrayToDataTable(chartData);
+      chart = echarts.init(document.getElementById('chart_div'));
 
-      const options = {
-        title: 'Accidentes con Animales vs Población (2023)',
-        chartArea: { width: '70%' },
-        hAxis: {
-          title: 'Cantidad',
-          minValue: 0,
-          viewWindow: {
-            min: 0,
-            max: 10
+      const option = {
+        title: {
+          text: 'Accidentes con Animales vs Población (2023)',
+          left: 'center'
+        },
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: { type: 'shadow' }
+        },
+        legend: {
+          data: ['Accidentes', 'Población'],
+          bottom: 10
+        },
+        grid: {
+          left: '10%',
+          right: '10%',
+          bottom: '15%',
+          containLabel: true
+        },
+        xAxis: {
+          type: 'log',
+          name: 'Cantidad',
+          logBase: 10,
+          minorTick: { show: true },
+          minorSplitLine: { show: true },
+          axisLabel: {
+            // @ts-ignore
+            formatter: function (val) {
+              return val < 1000 ? val : val.toLocaleString();
+            }
           }
         },
-        vAxis: {
-          title: 'Comunidad Autónoma'
+        yAxis: {
+          type: 'category',
+          data: communities,
+          name: 'Comunidad Autónoma'
         },
-        bars: 'horizontal',
-        colors: ['#ff7f0e', '#1f77b4']
+        series: [
+          {
+            name: 'Accidentes',
+            type: 'bar',
+            data: accidents,
+            itemStyle: { color: '#ff7f0e' }
+          },
+          {
+            name: 'Población',
+            type: 'bar',
+            data: populations,
+            itemStyle: { color: '#1f77b4' }
+          }
+        ]
       };
 
-      // Dibujar el gráfico
-      // @ts-ignore
-      const chart = new google.visualization.BarChart(document.getElementById('chart_div'));
-      chart.draw(data, options);
+      chart.setOption(option);
     }
+
+    drawChart();
   });
 </script>
 
 <style>
   #chart_div {
     width: 100%;
-    max-width: 900px;
+    max-width: 960px;
     height: 600px;
     margin: auto;
   }

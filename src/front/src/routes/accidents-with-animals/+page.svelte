@@ -183,6 +183,9 @@
     <Button color="info" class="me-2" on:click={() => window.location.href = '/graphs/graph-JAC'}> 
         MI Api con todos los recursos
     </Button>
+    <Button color="info" class="me-2" on:click={() => window.location.href = '/graphs/graph-JAC-2'}> 
+        MI Api2 con todos los recursos
+    </Button>
 </div>
 
 

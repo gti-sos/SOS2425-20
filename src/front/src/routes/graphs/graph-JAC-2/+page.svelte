@@ -1,14 +1,12 @@
 <svelte:head>
-    <script src="https://code.highcharts.com/highcharts.js"></script>
-    <script src="https://code.highcharts.com/modules/exporting.js"></script>
-    <script src="https://code.highcharts.com/modules/export-data.js"></script>
-    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/d3@5.16.0/dist/d3.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/c3@0.7.20/c3.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/c3@0.7.20/c3.min.css" rel="stylesheet">
 </svelte:head>
 
 <script>
     import { onMount } from "svelte";
     import { dev } from "$app/environment";
-    import Highcharts from "highcharts";
 
     let API = "/api/v1/accidents-with-animals";
     if (dev) {
@@ -62,44 +60,41 @@
 
         const usedGroups = selectedAnimalGroup ? [selectedAnimalGroup] : [...new Set(filtered.map(d => d.animal_group))].sort();
 
-        const dataForChart = usedGroups.map(group => {
-            return {
-                name: group,
-                y: filtered.filter(d => d.animal_group === group).length
-            };
-        });
+        // Contar número total de accidentes del grupo seleccionado (o todos)
+        const count = filtered.length;
 
+        // Crear el gráfico de tipo gauge usando C3.js
         // @ts-ignore
-        Highcharts.chart('container', {
-            chart: {
-                type: 'pie'
+        c3.generate({
+            bindto: '#container',
+            data: {
+                columns: [
+                    ['Accidentes', count]
+                ],
+                type: 'gauge'
             },
-            title: {
-                text: 'Accidentes por Grupo de Animal'
-            },
-            tooltip: {
-                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-            },
-            accessibility: {
-                point: {
-                    valueSuffix: '%'
-                }
-            },
-            plotOptions: {
-                pie: {
-                    allowPointSelect: true,
-                    cursor: 'pointer',
-                    dataLabels: {
-                        enabled: false
+            gauge: {
+                label: {
+                    // @ts-ignore
+                    format: function (value) {
+                        return value;
                     },
-                    showInLegend: true
+                    show: true
+                },
+                min: 0,
+                max: 100, // Puedes ajustar esto a un valor esperado razonable
+                units: ' accidentes',
+                width: 39
+            },
+            color: {
+                pattern: ['#60B044', '#F6C600', '#F97600', '#FF0000'],
+                threshold: {
+                    values: [25, 50, 75, 100]
                 }
             },
-            series: [{
-                name: 'Grupo de Animal',
-                colorByPoint: true,
-                data: dataForChart
-            }]
+            size: {
+                height: 400
+            }
         });
     }
 
@@ -121,7 +116,7 @@
 <figure class="highcharts-figure">
     <div id="container" style="height: 600px;"></div>
     <p class="highcharts-description">
-        Este gráfico muestra la distribución de accidentes por grupo de animal.
+        Este gráfico tipo gauge muestra el número total de accidentes del grupo de animal seleccionado.
     </p>
 </figure>
 

@@ -69,20 +69,21 @@
       .domain(data.map(d => d.category))
       .range(['#ff7f0e', '#1f77b4']);
 
-    // @ts-ignore
-    svg.selectAll('rect')
-      .data(data)
-      .enter()
-      .append('rect')
+    // Definir un área
+    const area = d3.area()
       // @ts-ignore
-      .attr('x', d => x(d.category))
+      .x(d => x(d.category) + x.bandwidth() / 2)
+      .y0(height)  // El área empieza desde el eje X (en la parte inferior)
       // @ts-ignore
-      .attr('y', d => y(d.value))
-      .attr('width', x.bandwidth())
-      // @ts-ignore
-      .attr('height', d => height - y(d.value))
-      // @ts-ignore
-      .attr('fill', d => color(d.category));
+      .y1(d => y(d.value));
+
+    // Crear el área
+    svg.append('path')
+      .data([data])
+      .attr('class', 'area')
+      .attr('d', area)
+      .attr('fill', '#1f77b4')
+      .style('opacity', 0.5);
 
     // Ejes
     // @ts-ignore

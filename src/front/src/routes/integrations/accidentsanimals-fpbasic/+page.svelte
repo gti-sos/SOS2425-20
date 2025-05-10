@@ -1,22 +1,58 @@
 <script>
   import { onMount } from 'svelte';
-  let svg;
+
+  const API = "https://sos2425-20.onrender.com/api/v1/accidents-with-animals"; // Asegúrate de que esta URL sea correcta
+
+  // @ts-ignore
+  let data = [];
+  let communities = [];
+  let years = [];
+
+  // Función para obtener los datos de la API de accidentes
+  async function getData() {
+    try {
+      const res = await fetch(API);
+      let result = await res.json();
+
+      if (result.length === 0) {
+        const init = await fetch(API + "/loadInitialData");
+        if (init.ok) {
+          result = await init.json();
+          console.log("Datos iniciales cargados automáticamente.");
+        } else {
+          console.error("Error al cargar datos iniciales.");
+        }
+      }
+
+      data = result;
+      // @ts-ignore
+      communities = [...new Set(data.map(d => d.autonomous_community))].sort();
+      // @ts-ignore
+      years = [...new Set(data.map(d => d.year))].sort((a, b) => a - b);
+    } catch (error) {
+      console.error("Error al obtener datos:", error);
+    }
+  }
 
   onMount(async () => {
+    await getData(); // Cargar los datos de accidentes con animales
+
     // Cargar D3.js
     const d3 = await import('d3');
 
-    // Fetch a ambas APIs
-    const accRes = await fetch("https://sos2425-20.onrender.com/api/v1/accidents-with-animals");
+    // Fetch a la API de educación
     const eduRes = await fetch("https://sos2425-14.onrender.com/api/v1/education-data");
-
-    let accidents = await accRes.json();
     let education = await eduRes.json();
+
+    // Verificar los datos recibidos
+    // @ts-ignore
+    console.log('Accidents Data:', data);
+    console.log('Education Data:', education);
 
     // Agrupar accidentes por comunidad
     const accByCommunity = {};
     // @ts-ignore
-    accidents.forEach(d => {
+    data.forEach(d => {
       const comunidad = d.autonomous_community;
       // @ts-ignore
       accByCommunity[comunidad] = (accByCommunity[comunidad] || 0) + 1;
@@ -34,7 +70,7 @@
     // Unificar todas las comunidades presentes en ambas APIs
     const communities = Array.from(new Set([...Object.keys(accByCommunity), ...Object.keys(fpByCommunity)])).sort();
 
-    const data = communities.map(c => ({
+    const chartData = communities.map(c => ({
       community: c,
       // @ts-ignore
       accidents: accByCommunity[c] || 0,
@@ -55,7 +91,7 @@
       .attr('transform', `translate(${margin.left},${margin.top})`);
 
     const x0 = d3.scaleBand()
-      .domain(data.map(d => d.community))
+      .domain(chartData.map(d => d.community))
       .range([0, width])
       .paddingInner(0.1);
 
@@ -66,7 +102,7 @@
 
     const y = d3.scaleLinear()
       // @ts-ignore
-      .domain([0, d3.max(data, d => Math.max(d.accidents, d.basic_fp)) * 1.1])
+      .domain([0, d3.max(chartData, d => Math.max(d.accidents, d.basic_fp)) * 1.1])
       .nice()
       .range([height, 0]);
 
@@ -88,19 +124,18 @@
       .call(d3.axisLeft(y));
 
     // Barras
-    svgEl.selectAll('g.layer')
-      .data(data)
+    const bars = svgEl.selectAll('g.layer')
+      .data(chartData)
       .enter()
       .append('g')
       // @ts-ignore
-      .attr('transform', d => `translate(${x0(d.community)},0)`)
-      .selectAll('rect')
+      .attr('transform', d => `translate(${x0(d.community)},0)`);
+
+    bars.selectAll('rect')
       // @ts-ignore
-      .data(wd => [
-        // @ts-ignore
-        { key: 'Accidentes', value: wd.accidents },
-        // @ts-ignore
-        { key: 'FP Básica', value: wd.basic_fp }
+      .data(d => [
+        { key: 'Accidentes', value: d.accidents },
+        { key: 'FP Básica', value: d.basic_fp }
       ])
       .enter()
       .append('rect')
