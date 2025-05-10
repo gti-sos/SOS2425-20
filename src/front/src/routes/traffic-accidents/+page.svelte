@@ -1,6 +1,6 @@
 <!-- src/routes/traffic-accidents/+page.svelte -->
 <svelte:head>
-	<title>Accidentes de Tráfico</title>
+  <title>Accidentes de Tráfico</title>
 </svelte:head>
 
 <script>
@@ -16,14 +16,14 @@
   let trafficAccidents = [];
   let resultStatus = null;
 
-  // Campos de creación
+  // Campos para crear
   let newCommunity = "";
   let newYear = "";
   let newFatalAccidents = "";
   let newDeceased = "";
   let newVehiclesWithoutMot = "";
 
-  // Campos de búsqueda
+  // Campos para buscar
   let searchCommunity = "";
   let searchFrom = "";
   let searchTo = "";
@@ -32,58 +32,67 @@
   let searchWithoutMot = "";
 
   let firstLoad = true;
-  // Bandera para saber si venimos de un "Buscar"
-  let isSearching = false;
 
-  // Carga inicial o tras "Limpiar"
   async function getTrafficAccidents() {
-    isSearching = false;
     try {
       const res = await fetch(API);
       const data = await res.json();
       trafficAccidents = data;
 
       if (firstLoad && data.length === 0) {
-        const initRes = await fetch(API + "/loadInitialData");
-        if (initRes.ok) {
-          trafficAccidents = await initRes.json();
+        const initRes = await fetch(`${API}/loadInitialData`);
+        if (initRes.status === 201 || initRes.status === 200) {
+          const loaded = await initRes.json();
+          trafficAccidents = loaded;
           resultStatus = 201;
         }
       }
+
       firstLoad = false;
     } catch (error) {
-      console.error(`ERROR al obtener datos de ${API}:`, error);
+      console.log(`ERROR al obtener datos de ${API}: ${error}`);
     }
   }
 
-  // Crear un nuevo registro
   async function createTrafficAccident() {
     resultStatus = null;
-    if (!newCommunity || !newYear || !newFatalAccidents || !newDeceased || !newVehiclesWithoutMot) {
+
+    if (
+      !newCommunity ||
+      !newYear ||
+      !newFatalAccidents ||
+      !newDeceased ||
+      !newVehiclesWithoutMot
+    ) {
       resultStatus = 400;
       return;
     }
+
     const newEntry = {
       autonomous_community: newCommunity,
       year: parseInt(newYear),
       fatal_accidents: parseInt(newFatalAccidents),
       deceased: parseInt(newDeceased),
-      vehicles_without_mot: parseInt(newVehiclesWithoutMot)
+      vehicles_without_mot: parseInt(newVehiclesWithoutMot),
     };
+
     try {
       const res = await fetch(API, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(newEntry)
+        body: JSON.stringify(newEntry),
       });
+
       resultStatus = res.status;
-      if (res.status === 201) await getTrafficAccidents();
+
+      if (res.status === 201) {
+        await getTrafficAccidents();
+      }
     } catch (error) {
-      console.error(`ERROR en POST a ${API}:`, error);
+      console.log(`ERROR en POST a ${API}: ${error}`);
     }
   }
 
-  // Borrar todo
   async function deleteAllTrafficAccidents() {
     resultStatus = null;
     try {
@@ -91,46 +100,59 @@
       resultStatus = res.status;
       if (res.status === 200) await getTrafficAccidents();
     } catch (error) {
-      console.error(`ERROR al borrar todos:`, error);
+      console.log(`ERROR al hacer DELETE total: ${error}`);
     }
   }
 
-  // Borrar uno
   async function deleteTrafficAccident(community, year) {
     resultStatus = null;
     try {
-      const res = await fetch(`${API}/${community}/${year}`, { method: "DELETE" });
+      const res = await fetch(`${API}/${community}/${year}`, {
+        method: "DELETE",
+      });
       resultStatus = res.status;
       if (res.status === 200) await getTrafficAccidents();
     } catch (error) {
-      console.error(`ERROR al borrar ${community}/${year}:`, error);
+      console.log(`ERROR al eliminar: ${error}`);
     }
   }
 
-  // Filtrar
   async function searchTrafficAccidents() {
-    isSearching = true;
-    resultStatus = null;
-
     let url = new URL(API, window.location.origin);
-    if (searchCommunity)      url.searchParams.append("autonomous_community", searchCommunity);
-    if (searchFrom)           url.searchParams.append("from", searchFrom);
-    if (searchTo)             url.searchParams.append("to", searchTo);
+    if (searchCommunity) url.searchParams.append("autonomous_community", searchCommunity);
+    if (searchFrom) url.searchParams.append("from", searchFrom);
+    if (searchTo) url.searchParams.append("to", searchTo);
     if (searchFatalAccidents) url.searchParams.append("fatal_accidents", searchFatalAccidents);
-    if (searchDeceased)       url.searchParams.append("deceased", searchDeceased);
-    if (searchWithoutMot)     url.searchParams.append("vehicles_without_mot", searchWithoutMot);
+    if (searchDeceased) url.searchParams.append("deceased", searchDeceased);
+    if (searchWithoutMot) url.searchParams.append("vehicles_without_mot", searchWithoutMot);
 
+    resultStatus = null;
     try {
       const res = await fetch(url);
-      trafficAccidents = await res.json();
+      const data = await res.json();
+      trafficAccidents = data;
       resultStatus = res.status;
     } catch (error) {
-      console.error(`ERROR al buscar:`, error);
+      console.log(`ERROR al buscar: ${error}`);
     }
   }
 
   onMount(getTrafficAccidents);
 </script>
+
+<div class="d-flex justify-content-start my-3">
+  <Button
+    color="info"
+    class="me-2"
+    on:click={() => (window.location.href = "/integrations/annual-evolutions")}
+  >
+    Integración con Potencia Instalada
+  </Button>
+  <Button color="info" on:click={() => (window.location.href = "/integrations/forest-fires")}>
+    Integración con Incendios Forestales
+  </Button>
+</div>
+
 <h2>Listado de Accidentes de Tráfico</h2>
 
 {#if resultStatus !== null}
@@ -146,12 +168,12 @@
     {:else if resultStatus === 404}
       <i class="bi bi-x-circle-fill text-danger"></i> Recurso no encontrado.
     {:else}
-      <i class="bi bi-x-circle-fill text-danger"></i> Error (código {resultStatus}).
+      <i class="bi bi-x-circle-fill text-danger"></i> Error inesperado (código {resultStatus}).
     {/if}
   </p>
 {/if}
 
-{#if isSearching && resultStatus === 200 && trafficAccidents.length === 0}
+{#if resultStatus === 200 && trafficAccidents.length === 0}
   <div class="alert alert-warning mt-3" role="alert">
     <i class="bi bi-exclamation-circle-fill"></i> No se han encontrado resultados para esa búsqueda.
   </div>
@@ -159,12 +181,41 @@
 
 <h4><i class="bi bi-search"></i> Buscar registros</h4>
 <div class="mb-4">
-  <input class="form-control mb-1" bind:value={searchCommunity} placeholder="Comunidad" />
-  <input class="form-control mb-1" bind:value={searchFrom}       placeholder="Desde (año)" type="number" />
-  <input class="form-control mb-1" bind:value={searchTo}         placeholder="Hasta (año)" type="number" />
-  <input class="form-control mb-1" bind:value={searchFatalAccidents} placeholder="Acc. Mortales" type="number" />
-  <input class="form-control mb-1" bind:value={searchDeceased}       placeholder="Fallecidos" type="number" />
-  <input class="form-control mb-1" bind:value={searchWithoutMot}     placeholder="Sin ITV" type="number" />
+  <input
+    class="form-control mb-1"
+    bind:value={searchCommunity}
+    placeholder="Comunidad"
+  />
+  <input
+    class="form-control mb-1"
+    bind:value={searchFrom}
+    placeholder="Desde (año)"
+    type="number"
+  />
+  <input
+    class="form-control mb-1"
+    bind:value={searchTo}
+    placeholder="Hasta (año)"
+    type="number"
+  />
+  <input
+    class="form-control mb-1"
+    bind:value={searchFatalAccidents}
+    placeholder="Acc. Mortales"
+    type="number"
+  />
+  <input
+    class="form-control mb-1"
+    bind:value={searchDeceased}
+    placeholder="Fallecidos"
+    type="number"
+  />
+  <input
+    class="form-control mb-1"
+    bind:value={searchWithoutMot}
+    placeholder="Sin ITV"
+    type="number"
+  />
   <Button color="primary" on:click={searchTrafficAccidents}>
     <i class="bi bi-search"></i> Buscar
   </Button>
@@ -173,7 +224,7 @@
   </Button>
 </div>
 
-<Table>
+<Table striped hover responsive>
   <thead>
     <tr>
       <th>Comunidad</th>
@@ -186,11 +237,45 @@
   </thead>
   <tbody>
     <tr>
-      <td><input bind:value={newCommunity} placeholder="Comunidad" /></td>
-      <td><input type="number" bind:value={newYear} placeholder="Año" /></td>
-      <td><input type="number" bind:value={newFatalAccidents} placeholder="Acc. Mortales" /></td>
-      <td><input type="number" bind:value={newDeceased} placeholder="Fallecidos" /></td>
-      <td><input type="number" bind:value={newVehiclesWithoutMot} placeholder="Sin ITV" /></td>
+      <td>
+        <input
+          bind:value={newCommunity}
+          placeholder="Comunidad"
+          class="form-control"
+        />
+      </td>
+      <td>
+        <input
+          type="number"
+          bind:value={newYear}
+          placeholder="Año"
+          class="form-control"
+        />
+      </td>
+      <td>
+        <input
+          type="number"
+          bind:value={newFatalAccidents}
+          placeholder="Acc. Mortales"
+          class="form-control"
+        />
+      </td>
+      <td>
+        <input
+          type="number"
+          bind:value={newDeceased}
+          placeholder="Fallecidos"
+          class="form-control"
+        />
+      </td>
+      <td>
+        <input
+          type="number"
+          bind:value={newVehiclesWithoutMot}
+          placeholder="Sin ITV"
+          class="form-control"
+        />
+      </td>
       <td>
         <Button color="success" on:click={createTrafficAccident}>
           <i class="bi bi-plus-circle-fill"></i> Crear
@@ -214,7 +299,9 @@
           </Button>
           <Button
             color="danger"
-            on:click={() => deleteTrafficAccident(ta.autonomous_community, ta.year)}
+            on:click={() =>
+              deleteTrafficAccident(ta.autonomous_community, ta.year)
+            }
           >
             <i class="bi bi-trash3-fill"></i> Eliminar
           </Button>
@@ -224,6 +311,8 @@
   </tbody>
 </Table>
 
-<Button color="danger" class="mt-3" on:click={deleteAllTrafficAccidents}>
-  <i class="bi bi-trash-fill"></i> Eliminar todos los recursos
-</Button>
+<div class="text-center mt-3">
+  <Button color="danger" on:click={deleteAllTrafficAccidents}>
+    <i class="bi bi-trash-fill"></i> Eliminar todos los recursos
+  </Button>
+</div>
