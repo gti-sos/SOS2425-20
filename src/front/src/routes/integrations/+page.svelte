@@ -32,6 +32,16 @@
     { path: 'accidentsanimals-ticket', label: 'accidentsanimals-ticket'},
     { path: 'accidentsanimals-autonomy', label: 'accidentsanimals-autonomy'}
   ]
+
+  const apisCarlos = [
+    { path: 'exchange-rates', label: 'Tasas de cambio'},
+    { path: 'covid-spain', label: 'Casos de covid en España'}
+  ]
+
+  const integracionesCarlos = [
+    { path: 'radar-stats', label: 'radar-stats'},
+    { path: 'dana-grants-subsidies-stats', label: 'dana-grants-subsidies-stats'}
+  ]
 </script>
 
 <div class="container my-5">
@@ -59,6 +69,17 @@
     {/each}
   </div>
 
+  <h2 class="h5 mb-3">Widget Carlos (APIs externas)</h2>
+  <div class="row mb-5">
+    {#each apisCarlos as integ}
+      <div class="col-6 col-md-4 mb-3">
+        <a href={`/integrations/${integ.path}`} class="btn btn-primary w-100">
+          {integ.label}
+        </a>
+      </div>
+    {/each}
+  </div>
+
   <h2 class="h5 mb-3">Integraciones Javi (APIs externas)</h2>
   <div class="row mb-5">
     {#each integracionesJavi as integ}
@@ -78,6 +99,18 @@
       <div class="col-6 col-md-4 mb-3">
         <a href={`/integrations/${api.path}`} class="btn btn-primary w-100">
           {api.label}
+        </a>
+      </div>
+    {/each}
+  </div>
+
+
+  <h2 class="h5 mb-3">Integraciones Carlos (APIs de SOS)</h2>
+  <div class="row mb-5">
+    {#each integracionesCarlos as integ}
+      <div class="col-6 col-md-4 mb-3">
+        <a href={`/integrations/${integ.path}`} class="btn btn-primary w-100">
+          {integ.label}
         </a>
       </div>
     {/each}
