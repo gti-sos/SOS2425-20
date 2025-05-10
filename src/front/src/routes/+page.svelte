@@ -32,23 +32,7 @@
 
 <h2>Integrantes del equipo</h2>
 <ul>
-  <li>
-    <a href="https://github.com/Josecj11" target="_blank" rel="noopener">
-      José Calle Jiménez
-    </a>
-    – Fuente de datos: <strong>traffic-accidents</strong>
-  </li>
-  <li>
-    <a href="https://github.com/carlosmarmol" target="_blank" rel="noopener">
-      Carlos Mármol Ramírez
-    </a>
-    – Fuente de datos: <strong>fines</strong>
-  </li>
-  <li>
-    <a href="https://github.com/javandcas" target="_blank" rel="noopener">
-      Javier Andrade Castro
-    </a>
-    – Fuente de datos: <strong>accidents-with-animals</strong>
-  </li>
+	<li>José Calle Jiménez – Fuente de datos: <strong>traffic-accidents</strong></li>
+	<li>Carlos Mármol Ramírez – Fuente de datos: <strong>fines</strong></li>
+	<li>Javier Andrade Castro – Fuente de datos: <strong>accidents-with-animals</strong></li>
 </ul>
-
