@@ -7,30 +7,25 @@
 <script>
     import { onMount } from "svelte";
     import { dev } from "$app/environment";
+	import c3 from "c3";
 
     let API = "/api/v1/accidents-with-animals";
     if (dev) {
-        // Cambia el endpoint de la API si estás en un entorno de desarrollo
         API = "https://sos2425-20.onrender.com" + API;
     }
 
     // @ts-ignore
     let accidents = [];
-    // @ts-ignore
-    /**
-     * @type {any[]}
-     */
-    let animalGroups = [];
-    let selectedAnimalGroup = "";
+    /** @type {any[]} */
+    let communities = [];
+    let selectedCommunity = "";
 
-    // Función para obtener los datos de la API
     async function getData() {
         try {
             const res = await fetch(API);
             let result = await res.json();
 
             if (result.length === 0) {
-                // Si no hay datos, intenta cargar datos iniciales
                 const init = await fetch(API + "/loadInitialData");
                 if (init.ok) {
                     result = await init.json();
@@ -42,7 +37,7 @@
 
             accidents = result;
             // @ts-ignore
-            animalGroups = [...new Set(accidents.map(d => d.animal_group))].sort();
+            communities = [...new Set(accidents.map(d => d.autonomous_community))].sort();
 
             drawChart();
         } catch (error) {
@@ -50,21 +45,15 @@
         }
     }
 
-    // Función para dibujar el gráfico
     function drawChart() {
-        const filtered = selectedAnimalGroup
+        const filtered = selectedCommunity
             // @ts-ignore
-            ? accidents.filter(d => d.animal_group === selectedAnimalGroup)
+            ? accidents.filter(d => d.autonomous_community === selectedCommunity)
             // @ts-ignore
             : accidents;
 
-        const usedGroups = selectedAnimalGroup ? [selectedAnimalGroup] : [...new Set(filtered.map(d => d.animal_group))].sort();
-
-        // Contar número total de accidentes del grupo seleccionado (o todos)
         const count = filtered.length;
 
-        // Crear el gráfico de tipo gauge usando C3.js
-        // @ts-ignore
         c3.generate({
             bindto: '#container',
             data: {
@@ -82,7 +71,7 @@
                     show: true
                 },
                 min: 0,
-                max: 100, // Puedes ajustar esto a un valor esperado razonable
+                max: 100,
                 units: ' accidentes',
                 width: 39
             },
@@ -101,13 +90,13 @@
     onMount(getData);
 </script>
 
-<!-- Filtro de grupo de animales -->
+<!-- Filtro por comunidad autónoma -->
 <div style="margin-bottom: 1rem;">
-    <label for="animal-group-select">Filtrar por grupo de animal: </label>
-    <select id="animal-group-select" bind:value={selectedAnimalGroup} on:change={drawChart}>
-        <option value="">Todos</option>
-        {#each animalGroups as group}
-            <option value={group}>{group}</option>
+    <label for="community-select">Filtrar por comunidad autónoma: </label>
+    <select id="community-select" bind:value={selectedCommunity} on:change={drawChart}>
+        <option value="">Todas</option>
+        {#each communities as community}
+            <option value={community}>{community}</option>
         {/each}
     </select>
 </div>
@@ -116,7 +105,7 @@
 <figure class="highcharts-figure">
     <div id="container" style="height: 600px;"></div>
     <p class="highcharts-description">
-        Este gráfico tipo gauge muestra el número total de accidentes del grupo de animal seleccionado.
+        Este gráfico tipo gauge muestra el número total de accidentes en la comunidad autónoma seleccionada.
     </p>
 </figure>
 
