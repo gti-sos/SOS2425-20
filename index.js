@@ -39,11 +39,6 @@ loadBackendJACv2(app);
 
 app.use(handler); 
 
-//Ruta about
-app.get("/about",(request,response)=>{
-    response.redirect("/about.html");
-});
-
 // Arrancar servidor
 app.listen(PORT,()=>{
     console.log(`Server running on port ${PORT}!`);
