@@ -35,12 +35,14 @@
 
   const apisCarlos = [
     { path: 'exchange-rates', label: 'Tasas de cambio'},
-    { path: 'covid-spain', label: 'Casos de covid en España'}
+    { path: 'covid-spain', label: 'Casos de covid en España'},
+    { path: 'teams', label: 'Equipos LaLiga'},
   ]
 
   const integracionesCarlos = [
     { path: 'radar-stats', label: 'radar-stats'},
-    { path: 'dana-grants-subsidies-stats', label: 'dana-grants-subsidies-stats'}
+    { path: 'dana-grants-subsidies-stats', label: 'dana-grants-subsidies-stats'},
+    { path: 'cybercrime-data', label: 'cybercrime-data'},
   ]
 </script>
 
