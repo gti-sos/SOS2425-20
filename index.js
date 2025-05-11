@@ -10,6 +10,7 @@ import { loadBackendJACv2 } from "./src/back/index-JAC-v2.js";
 
 import path from "path";
 
+
 import {handler} from "./src/front/build/handler.js";
 import cors from "cors";
 
@@ -21,7 +22,7 @@ const PORT = process.env.PORT || 16078;
 
 // Middleware para parsear JSON
 app.use(express.json()); //  Debe ir antes de definir las rutas
-app.use(cors());
+app.use(cors()); // permite peticiones desde otros orígenes (útil para integraciones)
 
 
 //Cargar Backend 
@@ -36,7 +37,7 @@ loadBackendJCJv2(app);
 loadBackendCMRv2(app);
 loadBackendJACv2(app);
 
-
+//servimos la aplicación Svelte 
 app.use(handler); 
 
 // Arrancar servidor
